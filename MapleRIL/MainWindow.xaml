@@ -1,0 +1,26 @@
+﻿<Window x:Class="MapleRIL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MapleRIL"
+        mc:Ignorable="d"
+        Title="MapleRIL" Height="451.367" Width="525" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="57" Margin="19,10,0,0" VerticalAlignment="Top" Width="276" FontSize="36"/>
+        <Label Content="MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="178,39,0,0" VerticalAlignment="Top" Width="236"/>
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="21" Margin="40,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306"/>
+        <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Left" Height="20" Margin="350,111,0,0" VerticalAlignment="Top" Width="124" Click="searchButton_Click"/>
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="228" Margin="40,150,0,0" VerticalAlignment="Top" Width="434" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" GridLinesVisibility="Horizontal" HeadersVisibility="Column" MouseDoubleClick="dataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" CanUserReorder="False" CanUserResize="False" ClipboardContentBinding="{x:Null}" Header="ID" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Name}" CanUserReorder="False" CanUserResize="False" ClipboardContentBinding="{x:Null}" Header="Name" Width="310" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ComboBox x:Name="filterBox" HorizontalAlignment="Left" Height="24" Margin="293,81,0,0" VerticalAlignment="Top" Width="181"/>
+        <Label Content="Filter:" HorizontalAlignment="Left" Height="29" Margin="248,79,0,0" VerticalAlignment="Top" Width="45"/>
+        <Label x:Name="regionDirectionLabel" Content="GMS -&gt; KMS" HorizontalAlignment="Left" Height="24" Margin="385,388,0,0" VerticalAlignment="Top" Width="124" HorizontalContentAlignment="Right"/>
+        <CheckBox x:Name="swapDirectionBox" Content="Switch region direction" HorizontalAlignment="Left" Height="24" Margin="10,394,0,0" VerticalAlignment="Top" Width="150" Checked="swapDirectionBox_Toggled" Unchecked="swapDirectionBox_Toggled"/>
+
+    </Grid>
+</Window>

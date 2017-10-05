@@ -1,0 +1,22 @@
+﻿<Window x:Class="MapleRIL.Setup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MapleRIL"
+        mc:Ignorable="d"
+        Title="Setup" Height="325" Width="490" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="57" Margin="19,10,-3,0" VerticalAlignment="Top" Width="276" FontSize="36"/>
+        <Label Content="MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="178,39,-122,0" VerticalAlignment="Top" Width="236"/>
+        <TextBlock HorizontalAlignment="Left" Height="60" Margin="39,76,41,133" TextWrapping="Wrap" Text="Welcome! Please select the two MapleStory folders that will be used to look up item data and their respective regions." VerticalAlignment="Top" Width="402" TextAlignment="Center"/>
+        <Button x:Name="sourceButton" Content="Open Source Folder" HorizontalAlignment="Left" Height="28" Margin="39,136,0,0" VerticalAlignment="Top" Width="166" Click="sourceButton_Click"/>
+        <Button x:Name="targetButton" Content="Open Target Folder" HorizontalAlignment="Left" Height="28" Margin="266,136,0,0" VerticalAlignment="Top" Width="166" Click="targetButton_Click"/>
+        <Label x:Name="sourceLabel" Content="Please choose a source." HorizontalAlignment="Left" Height="25" Margin="54,164,292,80" VerticalAlignment="Top" Width="136" HorizontalContentAlignment="Center" Foreground="Red"/>
+        <Label x:Name="targetLabel" Content="Please choose a target." HorizontalAlignment="Left" Height="25" Margin="281,164,65,80" VerticalAlignment="Top" Width="136" HorizontalContentAlignment="Center" Foreground="Red"/>
+        <ComboBox x:Name="sourceRegionBox" HorizontalAlignment="Left" Height="20" Margin="39,202,0,0" VerticalAlignment="Top" Width="166"/>
+        <ComboBox x:Name="targetRegionBox" HorizontalAlignment="Left" Height="20" Margin="266,202,0,0" VerticalAlignment="Top" Width="166"/>
+        <Button x:Name="doneButton" Content="Finish Setup" HorizontalAlignment="Left" Height="22" Margin="162,254,0,0" VerticalAlignment="Top" Width="150" Click="doneButton_Click"/>
+
+    </Grid>
+</Window>
