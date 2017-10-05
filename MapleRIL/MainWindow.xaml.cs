@@ -73,7 +73,8 @@ namespace MapleRIL
                 filterBox.Items.Add(i);
             foreach (string e in EquipProperties)
                 filterBox.Items.Add(e);
-            filterBox.Text = "Consume";
+            filterBox.Items.Add("All");
+            filterBox.Text = "All";
 
             dataGrid.ItemsSource = SearchResults;
         }
@@ -92,12 +93,25 @@ namespace MapleRIL
 
             SearchResults.Clear();
 
+            if (filterBox.Text != "All")
+            {
+                searchInCategory(filterBox.Text);
+            }
+            else
+            {
+                foreach (string p in ItemProperties.Concat(EquipProperties))
+                    searchInCategory(p);
+            }
+        }
+
+        private void searchInCategory(string category)
+        {
             List<WzImageProperty> searchProperties; // these are the properties we will be looping for the item names
-            if (ItemProperties.Contains(filterBox.Text))
+            if (ItemProperties.Contains(category))
             {
                 // Dealing with a Item.wz
                 // This means the string is in eg Consume.img/ID
-                WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName(filterBox.Text + ".img");
+                WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName(category + ".img");
                 searchProperties = workingImage.WzProperties;
             }
             else
@@ -105,7 +119,7 @@ namespace MapleRIL
                 // Dealing with a Character.wz / it is an equip
                 // This means the string is in eg Eqp.img/Eqp/Acessory/ID
                 WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName("Eqp.img");
-                searchProperties = workingImage["Eqp"][filterBox.Text].WzProperties;
+                searchProperties = workingImage["Eqp"][category].WzProperties;
             }
 
             // look up a property in the image, eg 2000000 where inside the property "name"'s string is what the user is looking for.
@@ -119,7 +133,7 @@ namespace MapleRIL
                 return r.IsMatch(nameProp.First().GetString());
             });
 
-            foreach (SearchedItem i in props.Select(p => new SearchedItem(p)))
+            foreach (SearchedItem i in props.Select(p => new SearchedItem(p, category)))
                 SearchResults.Add(i);
         }
 
@@ -129,10 +143,12 @@ namespace MapleRIL
 
             public string Id => WzProperty.Name;
             public string Name => WzProperty["name"].GetString();
+            public string Category { get; private set; }
 
-            public SearchedItem(WzImageProperty wzProp)
+            public SearchedItem(WzImageProperty wzProp, string category)
             {
                 WzProperty = wzProp;
+                Category = category;
             }
         }
 
@@ -169,6 +185,19 @@ namespace MapleRIL
             TargetItemWz = _oldSourceItem;
 
             regionDirectionLabel.Content = SourceRegion + " -> " + TargetRegion;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            searchBox.Focus();
+        }
+
+        private void filterBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (filterBox.Text == "All")
+                warningLabel.Content = "Note: when using All, searches may be slower. Filters are strongly recommended.";
+            else
+                warningLabel.Content = "";
         }
     }
 }

@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MapleRIL"
         mc:Ignorable="d"
-        Title="Comparison" Height="404.748" Width="665.364" ResizeMode="NoResize">
+        Title="Comparison" Height="568.248" Width="665.364" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Label Content="MapleRIL" HorizontalAlignment="Left" Height="57" Margin="19,10,0,0" VerticalAlignment="Top" Width="276" FontSize="36"/>
-        <Label x:Name="sourceRegionLabel" Content="GMS" HorizontalAlignment="Left" Height="29" Margin="90,72,0,0" VerticalAlignment="Top" Width="143" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label x:Name="targetRegionLabel" Content="KMS" HorizontalAlignment="Left" Height="29" Margin="400,72,0,0" VerticalAlignment="Top" Width="143" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="sourceRegionLabel" Content="GMS" Margin="90,72,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" HorizontalAlignment="Left" Width="143"/>
+        <Label x:Name="targetRegionLabel" Content="KMS" Margin="0,72,114,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" Width="143"/>
         <Image x:Name="sourceImage" HorizontalAlignment="Left" Height="82" Margin="122,132,0,0" VerticalAlignment="Top" Width="82"/>
-        <Image x:Name="targetImage" HorizontalAlignment="Left" Height="82" Margin="430,132,0,0" VerticalAlignment="Top" Width="82"/>
+        <Image x:Name="targetImage" HorizontalAlignment="Right" Height="82" Margin="0,132,145,0" VerticalAlignment="Top" Width="82"/>
         <Label x:Name="lookupLabel" Content="Lookup: ID 200000" HorizontalAlignment="Left" Height="31" Margin="180,38,0,0" VerticalAlignment="Top" Width="176"/>
-        <TextBlock x:Name="sourceDescBlock" HorizontalAlignment="Left" Height="84" Margin="19,230,0,0" TextWrapping="Wrap" Text="A nice thing" VerticalAlignment="Top" Width="276"/>
-        <TextBlock x:Name="targetDescBlock" HorizontalAlignment="Left" Height="84" Margin="323,230,0,0" TextWrapping="Wrap" Text="A nice thing" VerticalAlignment="Top" Width="296"/>
+        <TextBlock x:Name="sourceDescBlock" HorizontalAlignment="Left" Margin="19,230,0,60" TextWrapping="Wrap" Text="A nice thing" Width="286"/>
+        <TextBlock x:Name="targetDescBlock" HorizontalAlignment="Right" Margin="0,230,38,60" TextWrapping="Wrap" Text="A nice thing" Width="291"/>
         <Label x:Name="sourceNameLabel" Content="Red Potion" HorizontalAlignment="Left" Height="26" Margin="10,98,0,0" VerticalAlignment="Top" Width="308" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label x:Name="targetNameLabel" Content="빨간포션" HorizontalAlignment="Left" Height="26" Margin="323,98,0,0" VerticalAlignment="Top" Width="296" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Button x:Name="copySourceButton" Content="Copy item name" HorizontalAlignment="Left" Height="25" Margin="50,330,0,0" VerticalAlignment="Top" Width="225" Click="copySourceButton_Click"/>
-        <Button x:Name="copyTargetButton" Content="Copy item name" HorizontalAlignment="Left" Height="25" Margin="359,330,0,0" VerticalAlignment="Top" Width="225" Click="copyTargetButton_Click"/>
+        <Label x:Name="targetNameLabel" Content="빨간포션" Margin="323,98,38,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" VerticalAlignment="Top"/>
+        <Button x:Name="copySourceButton" Content="Copy item name" Height="25" Margin="50,0,382,19" VerticalAlignment="Bottom" Click="copySourceButton_Click"/>
+        <Button x:Name="copyTargetButton" Content="Copy item name" Margin="359,0,73,19" Click="copyTargetButton_Click" Height="25" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>
