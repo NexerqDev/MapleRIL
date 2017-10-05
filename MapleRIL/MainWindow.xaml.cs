@@ -91,24 +91,36 @@ namespace MapleRIL
                 return;
 
             SearchResults.Clear();
+
+            List<WzImageProperty> searchProperties; // these are the properties we will be looping for the item names
             if (ItemProperties.Contains(filterBox.Text))
             {
+                // Dealing with a Item.wz
+                // This means the string is in eg Consume.img/ID
                 WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName(filterBox.Text + ".img");
-
-                // look up a property in the image, eg 2000000 where inside the property "name"'s string is what the user is looking for.
-                // loose search so use regexes
-                Regex r = new Regex("(^| )" + searchBox.Text + "($| )", RegexOptions.IgnoreCase);
-                IEnumerable<WzImageProperty> props = workingImage.WzProperties.Where(w => {
-                    var nameProp = w.WzProperties.Where(p => p.Name == "name");
-                    if (nameProp.Count() < 1)
-                        return false;
-
-                    return r.IsMatch(nameProp.First().GetString());
-                });
-
-                foreach (SearchedItem i in props.Select(p => new SearchedItem(p)))
-                    SearchResults.Add(i);
+                searchProperties = workingImage.WzProperties;
             }
+            else
+            {
+                // Dealing with a Character.wz / it is an equip
+                // This means the string is in eg Eqp.img/Eqp/Acessory/ID
+                WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName("Eqp.img");
+                searchProperties = workingImage["Eqp"][filterBox.Text].WzProperties;
+            }
+
+            // look up a property in the image, eg 2000000 where inside the property "name"'s string is what the user is looking for.
+            // loose search so use regexes
+            Regex r = new Regex("(^| )" + searchBox.Text + "($| )", RegexOptions.IgnoreCase);
+            IEnumerable<WzImageProperty> props = searchProperties.Where(w => {
+                var nameProp = w.WzProperties.Where(p => p.Name == "name");
+                if (nameProp.Count() < 1)
+                    return false;
+
+                return r.IsMatch(nameProp.First().GetString());
+            });
+
+            foreach (SearchedItem i in props.Select(p => new SearchedItem(p)))
+                SearchResults.Add(i);
         }
 
         public class SearchedItem

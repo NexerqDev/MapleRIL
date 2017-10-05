@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MapleRIL
 {
@@ -63,9 +63,16 @@ namespace MapleRIL
                 {
                     System.Windows.Forms.DialogResult res = fbd.ShowDialog();
                     if (res == System.Windows.Forms.DialogResult.OK && !String.IsNullOrWhiteSpace(fbd.SelectedPath))
-                        folder = fbd.SelectedPath;
+                    {
+                        if (!File.Exists(Path.Combine(fbd.SelectedPath, "Item.wz")))
+                            MessageBox.Show("This directory does not seem like a MapleStory directory. Please choose a valid path. (if you are using Nexon Launcher, make sure you select the 'appdata' path, not just the 'maplestory' path.)");
+                        else
+                            folder = fbd.SelectedPath;
+                    }
                     else
+                    {
                         MessageBox.Show("Please select a folder.");
+                    }
                 }
             }
             return folder;
