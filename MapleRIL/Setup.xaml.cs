@@ -26,13 +26,15 @@ namespace MapleRIL
             loadRegions();
         }
 
+        public string[] Regions = new string[] { "GMS", "KMS", "MSEA" };
+
         private void loadRegions()
         {
-            //Enum.GetNames(typeof(reWZ.WZVariant)).ToList().ForEach(r =>
-            //{
-            //    sourceRegionBox.Items.Add(r);
-            //    targetRegionBox.Items.Add(r);
-            //});
+            foreach (string r in Regions)
+            {
+                sourceRegionBox.Items.Add(r);
+                targetRegionBox.Items.Add(r);
+            }
 
             sourceRegionBox.Text = "GMS";
             targetRegionBox.Text = "KMS";
