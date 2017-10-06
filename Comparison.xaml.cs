@@ -34,7 +34,8 @@ namespace MapleRIL
             _mw = mw;
             Item = si;
 
-            lookupLabel.Content = "Lookup: ID " + si.Id.ToString();
+            lookupLabel.Content = "Lookup: ID " + si.Id;
+            Title = "MapleRIL - Lookup: ID " + si.Id;
 
             // source lookup
             sourceRegionLabel.Content = _mw.SourceRegion;
