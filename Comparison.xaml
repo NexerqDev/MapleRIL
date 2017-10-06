@@ -5,22 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MapleRIL"
         mc:Ignorable="d"
-        Title="Comparison" Height="568.248" Width="665.364" ResizeMode="CanResizeWithGrip" Icon="logo.ico">
+        Title="Comparison" Height="754.248" Width="665.364" ResizeMode="NoResize" Icon="logo.ico" Background="#FF4D4B4B">
     <Grid>
-        <Label x:Name="sourceRegionLabel" Content="GMS" Margin="93,99,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" HorizontalAlignment="Left" Width="143" FontWeight="Bold"/>
-        <Label x:Name="targetRegionLabel" Content="KMS" Margin="0,99,111,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" Width="143" FontWeight="Bold"/>
+        <Label x:Name="sourceRegionLabel" Content="GMS" Margin="93,99,421,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="targetRegionLabel" Content="KMS" Margin="403,99,111,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" FontWeight="Bold" Foreground="White"/>
         <Image x:Name="sourceImage" HorizontalAlignment="Left" Height="82" Margin="125,161,0,0" VerticalAlignment="Top" Width="82"/>
         <Image x:Name="targetImage" HorizontalAlignment="Right" Height="82" Margin="0,161,142,0" VerticalAlignment="Top" Width="82"/>
-        <Label x:Name="lookupLabel" Content="Lookup: ID 200000" HorizontalAlignment="Left" Height="31" Margin="451,10,0,0" VerticalAlignment="Top" Width="176" HorizontalContentAlignment="Right"/>
-        <TextBlock x:Name="sourceDescBlock" HorizontalAlignment="Left" Margin="19,276,0,60" TextWrapping="Wrap" Text="A nice thing" Width="286"/>
-        <TextBlock x:Name="targetDescBlock" HorizontalAlignment="Right" Margin="0,276,38,60" TextWrapping="Wrap" Text="A nice thing" Width="291"/>
-        <Label x:Name="sourceNameLabel" Content="Red Potion" HorizontalAlignment="Left" Height="26" Margin="13,125,0,0" VerticalAlignment="Top" Width="308" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label x:Name="targetNameLabel" Content="빨간포션" Margin="326,125,35,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" VerticalAlignment="Top"/>
-        <Button x:Name="copySourceButton" Content="Copy item name" Height="25" Margin="50,0,382,19" VerticalAlignment="Bottom" Click="copySourceButton_Click"/>
+        <Label x:Name="lookupLabel" Content="Lookup: ID 200000" HorizontalAlignment="Left" Height="31" Margin="451,10,0,0" VerticalAlignment="Top" Width="176" HorizontalContentAlignment="Right" Foreground="White"/>
+        <TextBlock x:Name="sourceDescBlock" HorizontalAlignment="Left" Margin="19,276,0,60" TextWrapping="Wrap" Text="A nice thing" Width="286" Foreground="White"/>
+        <TextBlock x:Name="targetDescBlock" HorizontalAlignment="Right" Margin="0,276,38,60" TextWrapping="Wrap" Text="A nice thing" Width="291" Foreground="White"/>
+        <Label x:Name="sourceNameLabel" Content="Red Potion" Height="26" Margin="13,125,336,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Label x:Name="targetNameLabel" Content="빨간포션" Margin="326,125,35,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="26" VerticalAlignment="Top" Foreground="White"/>
+        <Button x:Name="copySourceButton" Content="Copy item name" Margin="50,0,382,19" Click="copySourceButton_Click" Height="25" VerticalAlignment="Bottom"/>
         <Button x:Name="copyTargetButton" Content="Copy item name" Margin="359,0,73,19" Click="copyTargetButton_Click" Height="25" VerticalAlignment="Bottom"/>
-        <Label Content="|   MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="212,54,0,0" VerticalAlignment="Top" Width="236"/>
+        <Label Content="|   MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="212,54,0,0" VerticalAlignment="Top" Width="236" Foreground="White"/>
         <Image HorizontalAlignment="Left" Height="95" Margin="5,7,0,0" VerticalAlignment="Top" Width="95" Source="logo.ico"/>
-        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="43" Margin="105,41,0,0" VerticalAlignment="Top" Width="178" FontSize="24"/>
+        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="43" Margin="105,41,0,0" VerticalAlignment="Top" Width="178" FontSize="24" Foreground="White"/>
 
     </Grid>
 </Window>
