@@ -39,28 +39,30 @@ namespace MapleRIL
 
             // now the true lookup starts
             string id = "0" + si.Id.ToString(); // pad the leading 0
-            bool isItemWz = _mw.ItemProperties.Contains(si.Category);
-            if (isItemWz)
+            if (_mw.ItemProperties.Contains(si.StringWzCategory) || si.StringWzCategory == "Ins")
             {
                 // Item.wz (other items)
                 sourceDescBlock.Text = safeDesc(si.WzProperty["desc"]);
 
                 // lets start with the easy - source
                 // things are stored as Consume/0200.img/02000000
-                WzDirectory sourceDir = _mw.SourceItemWz.WzDirectory[si.Category] as WzDirectory;
-                WzImage sourceWzImage = sourceDir.GetImageByName(id.Substring(0, 4) + ".img");
-                WzImageProperty sourceProp = sourceWzImage[id];
+                string itemWzCategory = si.StringWzCategory;
+                if (itemWzCategory == "Ins")
+                    itemWzCategory = "Install"; // setup = install in item.wz
+                WzDirectory sourceItemDir = _mw.SourceItemWz.WzDirectory[itemWzCategory] as WzDirectory;
+                WzImage sourceItemImage = sourceItemDir.GetImageByName(id.Substring(0, 4) + ".img");
+                WzImageProperty sourceItemProp = sourceItemImage[id];
 
                 // TODO: do all the other spec infos
                 try // idk what happens if we cant find it
                 {
-                    sourceImage.Source = wpfImage(sourceProp["info"]["icon"].GetBitmap());
+                    sourceImage.Source = wpfImage(sourceItemProp["info"]["icon"].GetBitmap());
                 }
                 catch { }
 
 
                 // target
-                WzImage targetStringImage = _mw.TargetStringWz.WzDirectory.GetImageByName(si.Category + ".img");
+                WzImage targetStringImage = _mw.TargetStringWz.WzDirectory.GetImageByName(si.StringWzCategory + ".img");
                 WzImageProperty targetStringProp = targetStringImage[si.Id.ToString()];
                 if (targetStringProp == null)
                 {
@@ -70,9 +72,9 @@ namespace MapleRIL
                 targetNameLabel.Content = targetStringProp["name"].GetString();
                 targetDescBlock.Text = safeDesc(targetStringProp["desc"]);
 
-                WzDirectory targetItemDir = _mw.SourceItemWz.WzDirectory[si.Category] as WzDirectory;
-                WzImage targetItemImage = sourceDir.GetImageByName(id.Substring(0, 4) + ".img");
-                WzImageProperty targetItemProp = sourceWzImage[id];
+                WzDirectory targetItemDir = _mw.TargetItemWz.WzDirectory[itemWzCategory] as WzDirectory;
+                WzImage targetItemImage = targetItemDir.GetImageByName(id.Substring(0, 4) + ".img");
+                WzImageProperty targetItemProp = targetItemImage[id];
 
                 // TODO: do all the other spec infos
                 try // idk what happens if we cant find it
@@ -89,7 +91,7 @@ namespace MapleRIL
 
                 // source
                 // stored as Accessory/01010000.img
-                WzDirectory sourceDir = _mw.SourceCharacterWz.WzDirectory[si.Category] as WzDirectory;
+                WzDirectory sourceDir = _mw.SourceCharacterWz.WzDirectory[si.StringWzCategory] as WzDirectory;
                 WzImage sourceWzImage = sourceDir.GetImageByName(id + ".img");
                 sourceDescBlock.Text = buildEquipDescription(sourceWzImage["info"]); // build desc here as we need it from char.wz
 
@@ -103,7 +105,7 @@ namespace MapleRIL
 
                 // target
                 WzImage targetStringImage = _mw.TargetStringWz.WzDirectory.GetImageByName("Eqp.img");
-                WzImageProperty targetStringProp = targetStringImage["Eqp"][si.Category][si.Id.ToString()];
+                WzImageProperty targetStringProp = targetStringImage["Eqp"][si.StringWzCategory][si.Id.ToString()];
                 if (targetStringProp == null)
                 {
                     targetNotExist();
@@ -112,7 +114,7 @@ namespace MapleRIL
                 targetNameLabel.Content = targetStringProp["name"].GetString();
                 //targetDescBlock.Text = safeDesc(targetStringProp["desc"]);
 
-                WzDirectory targetItemDir = _mw.TargetCharacterWz.WzDirectory[si.Category] as WzDirectory;
+                WzDirectory targetItemDir = _mw.TargetCharacterWz.WzDirectory[si.StringWzCategory] as WzDirectory;
                 WzImage targetItemImage = sourceDir.GetImageByName(id + ".img");
                 WzImageProperty infoProp = targetItemImage["info"];
                 targetDescBlock.Text = buildEquipDescription(infoProp);

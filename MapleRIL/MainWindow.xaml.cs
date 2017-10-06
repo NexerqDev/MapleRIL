@@ -40,7 +40,7 @@ namespace MapleRIL
         public string SourceRegion = Properties.Settings.Default.sourceRegion;
         public string TargetRegion = Properties.Settings.Default.targetRegion;
 
-        public string[] ItemProperties = new string[] { "Consume", "Etc", "Pet", "Cash" };
+        public string[] ItemProperties = new string[] { "Consume", "Etc", "Pet", "Cash", "Setup" };
         public string[] EquipProperties;
 
         public ObservableCollection<SearchedItem> SearchResults = new ObservableCollection<SearchedItem>();
@@ -67,16 +67,22 @@ namespace MapleRIL
             TargetItemWz = loadWzFile(TargetItemWzPath, WzMapleVersion.CLASSIC);
             TargetCharacterWz = loadWzFile(TargetCharacterWzPath, WzMapleVersion.CLASSIC);
 
+            loadFilters();
+
+            dataGrid.ItemsSource = SearchResults;
+        }
+
+        private void loadFilters()
+        {
             EquipProperties = SourceStringWz.WzDirectory.GetImageByName("Eqp.img")["Eqp"].WzProperties.Select(w => w.Name).ToArray();
 
+            filterBox.Items.Clear();
             foreach (string i in ItemProperties)
                 filterBox.Items.Add(i);
             foreach (string e in EquipProperties)
                 filterBox.Items.Add(e);
             filterBox.Items.Add("All");
             filterBox.Text = "All";
-
-            dataGrid.ItemsSource = SearchResults;
         }
 
         private WzFile loadWzFile(string path, WzMapleVersion version)
@@ -111,6 +117,9 @@ namespace MapleRIL
             {
                 // Dealing with a Item.wz
                 // This means the string is in eg Consume.img/ID
+                if (category == "Setup")
+                    category = "Ins"; // internally setup is actually called "Install" or "Ins" in strings
+
                 WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName(category + ".img");
                 searchProperties = workingImage.WzProperties;
             }
@@ -124,7 +133,7 @@ namespace MapleRIL
 
             // look up a property in the image, eg 2000000 where inside the property "name"'s string is what the user is looking for.
             // loose search so use regexes
-            Regex r = new Regex("(^| )" + searchBox.Text + "($| )", RegexOptions.IgnoreCase);
+            Regex r = new Regex("(^| )" + searchBox.Text + "($| |')", RegexOptions.IgnoreCase);
             IEnumerable<WzImageProperty> props = searchProperties.Where(w => {
                 var nameProp = w.WzProperties.Where(p => p.Name == "name");
                 if (nameProp.Count() < 1)
@@ -143,12 +152,13 @@ namespace MapleRIL
 
             public string Id => WzProperty.Name;
             public string Name => WzProperty["name"].GetString();
-            public string Category { get; private set; }
+            public string StringWzCategory { get; private set; }
+            public string Category => StringWzCategory == "Ins" ? "Setup" : StringWzCategory; // TODO: better way to handle this so we can have a displayed name but also an internal name, i.e. instead of "Consume" we can name it "Use"
 
             public SearchedItem(WzImageProperty wzProp, string category)
             {
                 WzProperty = wzProp;
-                Category = category;
+                StringWzCategory = category;
             }
         }
 
@@ -184,7 +194,13 @@ namespace MapleRIL
             TargetCharacterWz = _oldSourceCharacter;
             TargetItemWz = _oldSourceItem;
 
+            // reload
+            searchBox.Text = "";
+            SearchResults.Clear();
+            loadFilters();
+
             regionDirectionLabel.Content = SourceRegion + " -> " + TargetRegion;
+            searchBox.Focus();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
