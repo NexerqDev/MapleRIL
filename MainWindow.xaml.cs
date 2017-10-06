@@ -54,7 +54,7 @@ namespace MapleRIL
             if (!File.Exists(Path.Combine(Properties.Settings.Default.sourceFolder, "String.wz"))
              || !File.Exists(Path.Combine(Properties.Settings.Default.targetFolder, "String.wz")))
             {
-                MessageBox.Show("The MapleStory folder(s) seem to not exist anymore. Relaunching setup for you to reconfigure.");
+                MessageBox.Show("The MapleStory folder(s) seem to not exist anymore. Relaunching setup for you to reconfigure.", "MapleRIL - Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Properties.Settings.Default.sourceFolder = "";
                 Properties.Settings.Default.Save();
                 (new Setup()).ShowDialog();
@@ -103,7 +103,7 @@ namespace MapleRIL
             }
             catch (IOException e)
             {
-                MessageBox.Show($"An error occured whilst loading WZ file: {path} -- this can happen as the file is in use somewhere else, such as MapleStory is still using the file. MapleRIL must now close, please try again later.\n\nAdditional information: {e.Message}");
+                MessageBox.Show($"An error occured whilst loading WZ file: {path} -- this can happen as the file is in use somewhere else, such as MapleStory is still using the file. MapleRIL must now close, please try again later.\n\nAdditional information: {e.Message}", "MapleRIL - Error loading required files", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(1);
                 return null;
             }

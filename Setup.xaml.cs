@@ -77,13 +77,13 @@ namespace MapleRIL
                     if (res == System.Windows.Forms.DialogResult.OK && !String.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         if (!File.Exists(Path.Combine(fbd.SelectedPath, "Item.wz")))
-                            MessageBox.Show("This directory does not seem like a MapleStory directory. Please choose a valid path. (if you are using Nexon Launcher, make sure you select the 'appdata' path, not just the 'maplestory' path.)");
+                            MessageBox.Show("This directory does not seem like a MapleStory directory. Please choose a valid path. (if you are using Nexon Launcher, make sure you select the 'appdata' path, not just the 'maplestory' path.)", "MapleRIL - Invalid Path", MessageBoxButton.OK, MessageBoxImage.Error);
                         else
                             folder = fbd.SelectedPath;
                     }
                     else
                     {
-                        MessageBox.Show("Please select a folder.");
+                        MessageBox.Show("Please select a folder.", "MapleRIL - Invalid Selection", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -95,13 +95,13 @@ namespace MapleRIL
             if (String.IsNullOrWhiteSpace(Properties.Settings.Default.sourceFolder)
              || String.IsNullOrWhiteSpace(Properties.Settings.Default.targetFolder))
             {
-                MessageBox.Show("You need to select a source and target folder.");
+                MessageBox.Show("You need to select a source and target folder.", "MapleRIL - Invalid Selection", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (sourceRegionBox.Text == targetRegionBox.Text)
             {
-                MessageBox.Show("The source region and target region is the same... are you sure you know what this tool is for...");
+                MessageBox.Show("The source region and target region is the same... are you sure you know what this tool is for...", "MapleRIL - Invalid Selection", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -109,7 +109,7 @@ namespace MapleRIL
             Properties.Settings.Default.targetRegion = targetRegionBox.Text;
 
             Properties.Settings.Default.Save();
-            MessageBox.Show("Setup complete. If at any time you need to return to this setup menu, simply click the MapleRIL \"logo\" on the main search window. Thanks for using and welcome to MapleRIL!");
+            MessageBox.Show("Setup complete. If at any time you need to return to this setup menu, simply click the MapleRIL \"logo\" on the main search window. Thanks for using and welcome to MapleRIL!", "MapleRIL - Setup Complete", MessageBoxButton.OK, MessageBoxImage.Information);
 
             Close();
         }
