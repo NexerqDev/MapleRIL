@@ -224,7 +224,7 @@ namespace MapleRIL
                 warningLabel.Content = "";
         }
 
-        private void Label_MouseUp(object sender, MouseButtonEventArgs e)
+        private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             (new Setup()).ShowDialog();
         }

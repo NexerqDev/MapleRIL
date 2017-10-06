@@ -5,11 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MapleRIL"
         mc:Ignorable="d"
-        Title="Setup" Height="325" Width="490" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Setup" Height="325" Width="490" ResizeMode="NoResize" Closing="Window_Closing" Icon="logo.ico">
     <Grid>
-        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="57" Margin="19,10,-3,0" VerticalAlignment="Top" Width="276" FontSize="36"/>
-        <Label Content="MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="178,39,-122,0" VerticalAlignment="Top" Width="236"/>
-        <TextBlock HorizontalAlignment="Left" Height="60" Margin="39,76,41,133" TextWrapping="Wrap" Text="Welcome! Please select the two MapleStory folders that will be used to look up item data and their respective regions." VerticalAlignment="Top" Width="402" TextAlignment="Center"/>
+        <TextBlock HorizontalAlignment="Left" Height="41" Margin="39,85,0,0" TextWrapping="Wrap" Text="Welcome! Please select the two MapleStory folders that will be used to look up item data and their respective regions." VerticalAlignment="Top" Width="402" TextAlignment="Center"/>
         <Button x:Name="sourceButton" Content="Open Source Folder" HorizontalAlignment="Left" Height="28" Margin="39,136,0,0" VerticalAlignment="Top" Width="166" Click="sourceButton_Click"/>
         <Button x:Name="targetButton" Content="Open Target Folder" HorizontalAlignment="Left" Height="28" Margin="266,136,0,0" VerticalAlignment="Top" Width="166" Click="targetButton_Click"/>
         <Label x:Name="sourceLabel" Content="Please choose a source." HorizontalAlignment="Left" Height="25" Margin="54,164,292,80" VerticalAlignment="Top" Width="136" HorizontalContentAlignment="Center" Foreground="Red"/>
@@ -17,6 +15,9 @@
         <ComboBox x:Name="sourceRegionBox" HorizontalAlignment="Left" Height="20" Margin="39,202,0,0" VerticalAlignment="Top" Width="166"/>
         <ComboBox x:Name="targetRegionBox" HorizontalAlignment="Left" Height="20" Margin="266,202,0,0" VerticalAlignment="Top" Width="166"/>
         <Button x:Name="doneButton" Content="Finish Setup" HorizontalAlignment="Left" Height="22" Margin="162,254,0,0" VerticalAlignment="Top" Width="150" Click="doneButton_Click"/>
+        <Label Content="|   MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="31" Margin="199,49,0,0" VerticalAlignment="Top" Width="223"/>
+        <Image HorizontalAlignment="Left" Height="73" Margin="13,10,0,0" VerticalAlignment="Top" Width="73" Source="logo.ico"/>
+        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="45" Margin="91,38,0,0" VerticalAlignment="Top" Width="138" FontSize="24"/>
 
     </Grid>
 </Window>

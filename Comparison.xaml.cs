@@ -185,7 +185,8 @@ namespace MapleRIL
                 return "(no description)";
 
             string d = w.GetString();
-            return d.Replace("\\n", "\n");
+            return d.Replace("\\r", "")
+                    .Replace("\\n", "\n");
         }
 
         private void copySourceButton_Click(object sender, RoutedEventArgs e)

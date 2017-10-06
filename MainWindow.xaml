@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MapleRIL"
         mc:Ignorable="d"
-        Title="MapleRIL" Height="551.867" Width="690" ResizeMode="CanResizeWithGrip" Loaded="Window_Loaded">
+        Title="MapleRIL" Height="551.867" Width="690" ResizeMode="CanResizeWithGrip" Loaded="Window_Loaded" Icon="logo.ico">
     <Grid>
-        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="57" Margin="19,10,0,0" VerticalAlignment="Top" Width="276" FontSize="36" MouseUp="Label_MouseUp"/>
-        <Label Content="MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="178,39,0,0" VerticalAlignment="Top" Width="236"/>
+        <Label Content="|   MapleStory Region Item Lookup" HorizontalAlignment="Left" Height="32" Margin="235,57,0,0" VerticalAlignment="Top" Width="236"/>
         <TextBox x:Name="searchBox" Height="21" Margin="40,110,173,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Right" Height="20" Margin="0,111,45,0" VerticalAlignment="Top" Width="124" Click="searchButton_Click" IsDefault="True"/>
         <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" Margin="40,150,45,44" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" GridLinesVisibility="Horizontal" HeadersVisibility="Column" MouseDoubleClick="dataGrid_MouseDoubleClick">
@@ -19,10 +18,12 @@
             </DataGrid.Columns>
         </DataGrid>
         <ComboBox x:Name="filterBox" Height="24" Margin="0,81,45,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="181" SelectionChanged="filterBox_SelectionChanged"/>
-        <Label Content="Filter:" Height="29" Margin="0,79,226,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="45"/>
+        <Label Content="Filter:" Height="29" Margin="0,78,226,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="45"/>
         <Label x:Name="regionDirectionLabel" Content="GMS -&gt; KMS" Margin="0,0,10,10" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="124" Height="24" VerticalAlignment="Bottom"/>
         <CheckBox x:Name="swapDirectionBox" Content="Switch region direction" HorizontalAlignment="Left" Margin="10,0,0,4" Width="150" Checked="swapDirectionBox_Toggled" Unchecked="swapDirectionBox_Toggled" Height="24" VerticalAlignment="Bottom"/>
-        <Label x:Name="warningLabel" Content="" Height="29" Margin="0,10,33,0" VerticalAlignment="Top" Foreground="Red" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="463"/>
+        <Label x:Name="warningLabel" Content="" Height="29" Margin="0,15,34,0" VerticalAlignment="Top" Foreground="Red" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="463"/>
+        <Image HorizontalAlignment="Left" Height="95" Margin="28,10,0,0" VerticalAlignment="Top" Width="95" Source="logo.ico" MouseLeftButtonUp="Image_MouseLeftButtonUp"/>
+        <Label Content="MapleRIL" HorizontalAlignment="Left" Height="43" Margin="128,44,0,0" VerticalAlignment="Top" Width="178" FontSize="24"/>
 
     </Grid>
 </Window>
