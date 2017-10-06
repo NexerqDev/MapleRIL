@@ -95,9 +95,18 @@ namespace MapleRIL
 
         private WzFile loadWzFile(string path, WzMapleVersion version)
         {
-            WzFile w = new WzFile(path, version);
-            w.ParseWzFile();
-            return w;
+            try
+            {
+                WzFile w = new WzFile(path, version);
+                w.ParseWzFile();
+                return w;
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show($"An error occured whilst loading WZ file: {path} -- this can happen as the file is in use somewhere else, such as MapleStory is still using the file. MapleRIL must now close, please try again later.\n\nAdditional information: {e.Message}");
+                Environment.Exit(1);
+                return null;
+            }
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
