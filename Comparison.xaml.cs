@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,8 +42,12 @@ namespace MapleRIL
             string id = "0" + si.Id.ToString(); // pad the leading 0
             if (_mw.ItemProperties.Contains(si.StringWzCategory) || si.StringWzCategory == "Ins")
             {
+                // TODO: make source and target loading modular, so we dont end up copy pasting like here
+                // should just be one function that takes a WzFile or something and looks the id up.
+                // especially because we have these Ins & Pet cases that just keep needing to be copied...
+
                 // Item.wz (other items)
-                sourceDescBlock.Text = safeDesc(si.WzProperty["desc"]);
+                safeDescAndParse(sourceDescBlock, si.WzProperty["desc"]);
 
                 // lets start with the easy - source
                 // things are stored as Consume/0200.img/02000000
@@ -50,13 +55,24 @@ namespace MapleRIL
                 if (itemWzCategory == "Ins")
                     itemWzCategory = "Install"; // setup = install in item.wz
                 WzDirectory sourceItemDir = _mw.SourceItemWz.WzDirectory[itemWzCategory] as WzDirectory;
-                WzImage sourceItemImage = sourceItemDir.GetImageByName(id.Substring(0, 4) + ".img");
-                WzImageProperty sourceItemProp = sourceItemImage[id];
+
+                WzImageProperty sourceItemInfoProp;
+                if (itemWzCategory != "Pet")
+                {
+                    WzImage sourceItemImage = sourceItemDir.GetImageByName(id.Substring(0, 4) + ".img");
+                    sourceItemInfoProp = sourceItemImage[id]["info"];
+                }
+                else // pls no more edge cases O_o -- need more modular handling for these
+                {
+                    // pets dont use the padded id and are just image, not by first 4 0002 thing zzzz
+                    WzImage sourceItemImage = sourceItemDir.GetImageByName(si.Id.ToString() + ".img");
+                    sourceItemInfoProp = sourceItemImage["info"];
+                }
 
                 // TODO: do all the other spec infos
                 try // idk what happens if we cant find it
                 {
-                    sourceImage.Source = wpfImage(sourceItemProp["info"]["icon"].GetBitmap());
+                    sourceImage.Source = wpfImage(sourceItemInfoProp["icon"].GetBitmap());
                 }
                 catch { }
 
@@ -70,16 +86,26 @@ namespace MapleRIL
                     return;
                 }
                 targetNameLabel.Content = targetStringProp["name"].GetString();
-                targetDescBlock.Text = safeDesc(targetStringProp["desc"]);
+                safeDescAndParse(targetDescBlock, targetStringProp["desc"]);
 
                 WzDirectory targetItemDir = _mw.TargetItemWz.WzDirectory[itemWzCategory] as WzDirectory;
-                WzImage targetItemImage = targetItemDir.GetImageByName(id.Substring(0, 4) + ".img");
-                WzImageProperty targetItemProp = targetItemImage[id];
+
+                WzImageProperty targetInfoItemProp;
+                if (itemWzCategory != "Pet")
+                {
+                    WzImage targetItemImage = targetItemDir.GetImageByName(id.Substring(0, 4) + ".img");
+                    targetInfoItemProp = targetItemImage[id]["info"];
+                }
+                else
+                {
+                    WzImage targetItemImage = targetItemDir.GetImageByName(si.Id.ToString() + ".img");
+                    targetInfoItemProp = targetItemImage["info"];
+                }
 
                 // TODO: do all the other spec infos
                 try // idk what happens if we cant find it
                 {
-                    targetImage.Source = wpfImage(targetItemProp["info"]["icon"].GetBitmap());
+                    targetImage.Source = wpfImage(targetInfoItemProp["icon"].GetBitmap());
                 }
                 catch { }
             }
@@ -179,14 +205,53 @@ namespace MapleRIL
             return BitmapFrame.Create(ms);
         }
 
-        private string safeDesc(WzObject w)
+        private Regex orangeDescRegex = new Regex("#c(.*?)#", RegexOptions.Singleline); // wait so singleline is the one that matches multiline strings ok then fuck thats confusing
+        private Regex orangeDescToEndRegex = new Regex("(?!#c(.*?)#)#c(.*?)$", RegexOptions.Singleline);
+        private void safeDescAndParse(TextBlock t, WzObject w)
         {
+            t.Inlines.Clear();
+            t.Text = "";
+
             if (w == null)
-                return "(no description)";
+            {
+                t.Text = "(no description)";
+                return;
+            }
 
             string d = w.GetString();
-            return d.Replace("\\r", "")
-                    .Replace("\\n", "\n");
+            d = d.Replace("\\r", "")
+                 .Replace("\\n", "\n");
+
+            // sometimes you can have #c......... to the end so have to color the whole thing
+            if (orangeDescToEndRegex.IsMatch(d))
+                d += "#"; // just add it back save the headache
+
+            MatchCollection matches = orangeDescRegex.Matches(d);
+            if (matches.Count < 1)
+            {
+                t.Text = d;
+            }
+            else
+            {
+                // eg string "do this and #cDouble-click#" - index 12 - so go up to 12 (will include the space as substring is length)
+                t.Inlines.Add(new Run(d.Substring(0, matches[0].Index)));
+                t.Inlines.Add(new Run(d.Substring(matches[0].Index + 2, matches[0].Length - 3)) { Foreground = Brushes.DarkOrange }); // skip the #c (+2) and remove #c and #'s length (-3)
+                if (matches.Count > 1) // more than 1 match we need to do some tricks - basically last regex's index+length to the next index is regular then orange
+                {
+                    for (int i = 1; i < matches.Count; i++)
+                    {
+                        int continueIndex = matches[i - 1].Index + matches[i - 1].Length; // the index after the previous match
+                        t.Inlines.Add(new Run(d.Substring(continueIndex, matches[i].Index - continueIndex))); // go up to before the next orange
+                        t.Inlines.Add(new Run(d.Substring(matches[i].Index + 2, matches[i].Length - 3)) { Foreground = Brushes.DarkOrange }); // same as above, process the orange
+                    }
+                }
+                if (matches[matches.Count - 1].Index + matches[matches.Count - 1].Length < d.Length)
+                {
+                    // theres still more text to go as normal after last match as the index + regex match length added is less than the entire length
+                    int continueIndex = matches[matches.Count - 1].Index + matches[matches.Count - 1].Length;
+                    t.Inlines.Add(new Run(d.Substring(continueIndex))); // just from teh index to the end
+                }
+            }
         }
 
         private void copySourceButton_Click(object sender, RoutedEventArgs e)
