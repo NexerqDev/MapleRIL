@@ -51,7 +51,18 @@ namespace MapleRIL
             TargetRegion = Properties.Settings.Default.targetRegion;
 
             loadPaths();
-            loadWzs();
+
+            try
+            {
+                loadWzs();
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show($"An error occured whilst loading required WZ files -- this can happen as a file is in use somewhere else, such as MapleStory is still using the file. MapleRIL must now close, please try again later.\n\nAdditional information: {e.Message}", "MapleRIL - Error loading required files", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+                return;
+            }
+            
 
             loadFilters();
             dataGrid.ItemsSource = SearchResults;
