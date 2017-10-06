@@ -119,7 +119,7 @@ namespace MapleRIL
                 // stored as Accessory/01010000.img
                 WzDirectory sourceDir = _mw.SourceCharacterWz.WzDirectory[si.StringWzCategory] as WzDirectory;
                 WzImage sourceWzImage = sourceDir.GetImageByName(id + ".img");
-                sourceDescBlock.Text = buildEquipDescription(sourceWzImage["info"]); // build desc here as we need it from char.wz
+                sourceDescBlock.Text = buildEquipDescription(sourceWzImage["info"], si.StringWzCategory); // build desc here as we need it from char.wz
 
                 // TODO: do all the other reqDEX etc info
                 try // idk what happens if we cant find it
@@ -143,7 +143,7 @@ namespace MapleRIL
                 WzDirectory targetItemDir = _mw.TargetCharacterWz.WzDirectory[si.StringWzCategory] as WzDirectory;
                 WzImage targetItemImage = sourceDir.GetImageByName(id + ".img");
                 WzImageProperty infoProp = targetItemImage["info"];
-                targetDescBlock.Text = buildEquipDescription(infoProp);
+                targetDescBlock.Text = buildEquipDescription(infoProp, si.StringWzCategory);
 
                 // TODO: do all the other spec infos
                 try // idk what happens if we cant find it
@@ -154,7 +154,7 @@ namespace MapleRIL
             }
         }
 
-        private string buildEquipDescription(WzImageProperty infoProp)
+        private string buildEquipDescription(WzImageProperty infoProp, string category)
         {
             string desc = "WARNING: Equip stats are still WIP - a lot of stats may be missing!\n\n";
             desc += "REQ LEV: " + (infoProp["reqLevel"] == null ? "0" : infoProp["reqLevel"].GetInt().ToString());
@@ -167,6 +167,7 @@ namespace MapleRIL
             desc += "   ";
             desc += "REQ INT: " + (infoProp["reqINT"] == null ? "0" : infoProp["reqINT"].GetInt().ToString());
             desc += "\n";
+            desc += (category == "Weapon") ? (getFriendlyWeaponAttackSpeed(infoProp) + "\n") : "";
             desc += ifIntExistsOutputFormat(infoProp, "incSTR", "STR: +{0}\n");
             desc += ifIntExistsOutputFormat(infoProp, "incDEX", "DEX: +{0}\n");
             desc += ifIntExistsOutputFormat(infoProp, "incINT", "INT: +{0}\n");
@@ -174,7 +175,9 @@ namespace MapleRIL
             desc += ifIntExistsOutputFormat(infoProp, "incPAD", "WEAPON ATTACK: +{0}\n");
             desc += ifIntExistsOutputFormat(infoProp, "incMAD", "MAGIC ATTACK: +{0}\n");
             desc += ifIntExistsOutputFormat(infoProp, "incACC", "ACCURACY: +{0}\n");
+            desc += ifIntExistsOutputFormat(infoProp, "bdR", "BOSS DAMAGE: +{0}%\n");
             desc += ifIntExistsOutputFormat(infoProp, "imdR", "IED: +{0}%\n");
+            desc += ifIntExistsOutputFormat(infoProp, "charmEXP", "CHARM EXP ON FIRST EQUIP: +{0}%\n");
             desc = desc.Trim();
 
             return desc;
@@ -189,6 +192,34 @@ namespace MapleRIL
                 return "";
 
             return String.Format(formatString, prop.GetInt().ToString());
+        }
+
+        private string getFriendlyWeaponAttackSpeed(WzImageProperty infoProp)
+        {
+            string friendlyAtkSpd;
+            if (infoProp["attackSpeed"] != null)
+            {
+                switch (infoProp["attackSpeed"].GetInt())
+                {
+                    case 2:
+                        friendlyAtkSpd = "Faster (2)"; break;
+                    case 3:
+                        friendlyAtkSpd = "Faster (3)"; break;
+                    case 4:
+                        friendlyAtkSpd = "Fast (4)"; break;
+                    case 5:
+                        friendlyAtkSpd = "Fast (5)"; break;
+                    case 6:
+                        friendlyAtkSpd = "Normal (6)"; break;
+                    default:
+                        friendlyAtkSpd = infoProp["attackSpeed"].GetInt().ToString(); break;
+                }
+            }
+            else
+            {
+                return "";
+            }
+            return friendlyAtkSpd;
         }
 
         private void targetNotExist()
