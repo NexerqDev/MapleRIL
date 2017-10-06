@@ -36,8 +36,20 @@ namespace MapleRIL
                 targetRegionBox.Items.Add(r);
             }
 
-            sourceRegionBox.Text = "GMS";
-            targetRegionBox.Text = "KMS";
+            if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.sourceFolder))
+            {
+                sourceRegionBox.Text = Properties.Settings.Default.sourceRegion;
+                targetRegionBox.Text = Properties.Settings.Default.targetRegion;
+                sourceLabel.Content = "OK";
+                sourceLabel.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                targetLabel.Content = "OK";
+                targetLabel.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+            }
+            else
+            {
+                sourceRegionBox.Text = "GMS";
+                targetRegionBox.Text = "KMS";
+            }
         }
 
         private void sourceButton_Click(object sender, RoutedEventArgs e)
@@ -97,7 +109,21 @@ namespace MapleRIL
             Properties.Settings.Default.targetRegion = targetRegionBox.Text;
 
             Properties.Settings.Default.Save();
+            MessageBox.Show("Setup complete. If at any time you need to return to this setup menu, simply click the MapleRIL \"logo\" on the main search window. Thanks for using and welcome to MapleRIL!");
+
             Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(Properties.Settings.Default.sourceFolder))
+                return; // this is only intended for first time setups
+
+            e.Cancel = true;
+
+            MessageBoxResult mbr = MessageBox.Show("If you close setup now, you will not be able to use MapleRIL. Still close?", "Warning", MessageBoxButton.YesNo);
+            if (mbr == MessageBoxResult.Yes)
+                Environment.Exit(0);
         }
     }
 }

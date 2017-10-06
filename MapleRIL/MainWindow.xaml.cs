@@ -51,6 +51,14 @@ namespace MapleRIL
 
             if (String.IsNullOrWhiteSpace(Properties.Settings.Default.sourceFolder))
                 (new Setup()).ShowDialog();
+            if (!File.Exists(Path.Combine(Properties.Settings.Default.sourceFolder, "String.wz"))
+             || !File.Exists(Path.Combine(Properties.Settings.Default.targetFolder, "String.wz")))
+            {
+                MessageBox.Show("The MapleStory folder(s) seem to not exist anymore. Relaunching setup for you to reconfigure.");
+                Properties.Settings.Default.sourceFolder = "";
+                Properties.Settings.Default.Save();
+                (new Setup()).ShowDialog();
+            }
 
             SourceStringWzPath = Path.Combine(Properties.Settings.Default.sourceFolder, "String.wz");
             SourceItemWzPath = Path.Combine(Properties.Settings.Default.sourceFolder, "Item.wz");
@@ -214,6 +222,11 @@ namespace MapleRIL
                 warningLabel.Content = "Note: when using All, searches may be slower. Filters are strongly recommended.";
             else
                 warningLabel.Content = "";
+        }
+
+        private void Label_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            (new Setup()).ShowDialog();
         }
     }
 }
