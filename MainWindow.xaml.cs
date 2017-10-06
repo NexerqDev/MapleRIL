@@ -1,4 +1,5 @@
 ﻿using MapleLib.WzLib;
+using MapleRIL.Structure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,25 +24,20 @@ namespace MapleRIL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string SourceStringWzPath;
-        public string SourceItemWzPath;
-        public string SourceCharacterWzPath;
-        public string TargetStringWzPath;
-        public string TargetItemWzPath;
-        public string TargetCharacterWzPath;
+        public bool LookupReversed = false;
 
-        public WzFile SourceStringWz;
-        public WzFile SourceItemWz;
-        public WzFile SourceCharacterWz;
-        public WzFile TargetStringWz;
-        public WzFile TargetItemWz;
-        public WzFile TargetCharacterWz;
+        public string SourceWzPath;
+        public string TargetWzPath;
 
-        public string SourceRegion = Properties.Settings.Default.sourceRegion;
-        public string TargetRegion = Properties.Settings.Default.targetRegion;
+        public string SourceRegion;
+        public string TargetRegion;
 
-        public string[] ItemProperties = new string[] { "Consume", "Etc", "Pet", "Cash", "Setup" };
-        public string[] EquipProperties;
+        public Dictionary<string, WzFile> SourceWzs;
+        public Dictionary<string, WzFile> TargetWzs;
+
+        public string[] RequiredWzs = new string[] { "String.wz", "Item.wz", "Character.wz" };
+
+        public List<WzItemType> ItemTypes;
 
         public ObservableCollection<SearchedItem> SearchResults = new ObservableCollection<SearchedItem>();
 
@@ -49,6 +45,21 @@ namespace MapleRIL
         {
             InitializeComponent();
 
+            checkForSetup();
+
+            SourceRegion = Properties.Settings.Default.sourceRegion;
+            TargetRegion = Properties.Settings.Default.targetRegion;
+
+            loadPaths();
+            loadWzs();
+
+            loadFilters();
+            dataGrid.ItemsSource = SearchResults;
+        }
+
+        private void checkForSetup()
+        {
+            // Checks if old folders are still OK or if we need a new setup
             if (String.IsNullOrWhiteSpace(Properties.Settings.Default.sourceFolder))
                 (new Setup()).ShowDialog();
             if (!File.Exists(Path.Combine(Properties.Settings.Default.sourceFolder, "String.wz"))
@@ -59,37 +70,52 @@ namespace MapleRIL
                 Properties.Settings.Default.Save();
                 (new Setup()).ShowDialog();
             }
+        }
 
-            SourceStringWzPath = Path.Combine(Properties.Settings.Default.sourceFolder, "String.wz");
-            SourceItemWzPath = Path.Combine(Properties.Settings.Default.sourceFolder, "Item.wz");
-            SourceCharacterWzPath = Path.Combine(Properties.Settings.Default.sourceFolder, "Character.wz");
-            TargetStringWzPath = Path.Combine(Properties.Settings.Default.targetFolder, "String.wz");
-            TargetItemWzPath = Path.Combine(Properties.Settings.Default.targetFolder, "Item.wz");
-            TargetCharacterWzPath = Path.Combine(Properties.Settings.Default.targetFolder, "Character.wz");
+        private void loadPaths()
+        {
+            SourceWzPath = Properties.Settings.Default.sourceFolder;
+            TargetWzPath = Properties.Settings.Default.targetFolder;
+        }
 
-            SourceStringWz = loadWzFile(SourceStringWzPath, WzMapleVersion.CLASSIC); // new GMS AND KMS now uses CLASSIC
-            SourceItemWz = loadWzFile(SourceItemWzPath, WzMapleVersion.CLASSIC);
-            SourceCharacterWz = loadWzFile(SourceCharacterWzPath, WzMapleVersion.CLASSIC);
+        private void loadWzs()
+        {
+            SourceWzs = new Dictionary<string, WzFile>();
+            TargetWzs = new Dictionary<string, WzFile>();
 
-            TargetStringWz = loadWzFile(TargetStringWzPath, WzMapleVersion.CLASSIC);
-            TargetItemWz = loadWzFile(TargetItemWzPath, WzMapleVersion.CLASSIC);
-            TargetCharacterWz = loadWzFile(TargetCharacterWzPath, WzMapleVersion.CLASSIC);
+            foreach (string w in RequiredWzs)
+            {
+                // gms, kms, msea all use classic encryption now
+                WzFile source = new WzFile(Path.Combine(SourceWzPath, w), WzMapleVersion.CLASSIC);
+                source.ParseWzFile();
+                SourceWzs.Add(w, source);
 
-            loadFilters();
-
-            dataGrid.ItemsSource = SearchResults;
+                WzFile target = new WzFile(Path.Combine(TargetWzPath, w), WzMapleVersion.CLASSIC);
+                target.ParseWzFile();
+                TargetWzs.Add(w, target);
+            }
         }
 
         private void loadFilters()
         {
-            EquipProperties = SourceStringWz.WzDirectory.GetImageByName("Eqp.img")["Eqp"].WzProperties.Select(w => w.Name).ToArray();
+            ItemTypes = new List<WzItemType> // default Item.wz types
+            {
+                new ItemWzItemType("Consume"),
+                new ItemWzItemType("Etc"),
+                new PetItemWzItemType(),
+                new ItemWzItemType("Cash"),
+                new SetupItemWzItemType()
+            };
+
+            IEnumerable<string> equipProps = SourceWzs["String.wz"].WzDirectory.GetImageByName("Eqp.img")["Eqp"].WzProperties.Select(w => w.Name);
+            foreach (string e in equipProps)
+                ItemTypes.Add(new EquipWzItemType(e));
 
             filterBox.Items.Clear();
-            foreach (string i in ItemProperties)
-                filterBox.Items.Add(i);
-            foreach (string e in EquipProperties)
-                filterBox.Items.Add(e);
             filterBox.Items.Add("All");
+            foreach (WzItemType e in ItemTypes)
+                filterBox.Items.Add(e);
+
             filterBox.Text = "All";
         }
 
@@ -118,35 +144,18 @@ namespace MapleRIL
 
             if (filterBox.Text != "All")
             {
-                searchInCategory(filterBox.Text);
+                searchInType((WzItemType)filterBox.SelectedItem);
             }
             else
             {
-                foreach (string p in ItemProperties.Concat(EquipProperties))
-                    searchInCategory(p);
+                foreach (WzItemType p in ItemTypes)
+                    searchInType(p);
             }
         }
 
-        private void searchInCategory(string category)
+        private void searchInType(WzItemType type)
         {
-            List<WzImageProperty> searchProperties; // these are the properties we will be looping for the item names
-            if (ItemProperties.Contains(category))
-            {
-                // Dealing with a Item.wz
-                // This means the string is in eg Consume.img/ID
-                if (category == "Setup")
-                    category = "Ins"; // internally setup is actually called "Install" or "Ins" in strings
-
-                WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName(category + ".img");
-                searchProperties = workingImage.WzProperties;
-            }
-            else
-            {
-                // Dealing with a Character.wz / it is an equip
-                // This means the string is in eg Eqp.img/Eqp/Acessory/ID
-                WzImage workingImage = SourceStringWz.WzDirectory.GetImageByName("Eqp.img");
-                searchProperties = workingImage["Eqp"][category].WzProperties;
-            }
+            List<WzImageProperty> searchProperties = type.GetAllStringIdProperties(SourceWzs); // these are the properties we will be looping for the item names
 
             // look up a property in the image, eg 2000000 where inside the property "name"'s string is what the user is looking for.
             // loose search so use regexes
@@ -159,24 +168,8 @@ namespace MapleRIL
                 return r.IsMatch(nameProp.First().GetString());
             });
 
-            foreach (SearchedItem i in props.Select(p => new SearchedItem(p, category)))
+            foreach (SearchedItem i in props.Select(p => new SearchedItem(p, type)))
                 SearchResults.Add(i);
-        }
-
-        public class SearchedItem
-        {
-            public WzImageProperty WzProperty; // this is the overall property, its name is the items id
-
-            public string Id => WzProperty.Name;
-            public string Name => WzProperty["name"].GetString();
-            public string StringWzCategory { get; private set; }
-            public string Category => StringWzCategory == "Ins" ? "Setup" : StringWzCategory; // TODO: better way to handle this so we can have a displayed name but also an internal name, i.e. instead of "Consume" we can name it "Use"
-
-            public SearchedItem(WzImageProperty wzProp, string category)
-            {
-                WzProperty = wzProp;
-                StringWzCategory = category;
-            }
         }
 
         // // https://stackoverflow.com/questions/3120616/wpf-datagrid-selected-row-clicked-event sol #2
@@ -195,21 +188,15 @@ namespace MapleRIL
 
         private void swapDirectionBox_Toggled(object sender, RoutedEventArgs e)
         {
-            string _oldSourceRegion = SourceRegion;
-            WzFile _oldSourceString = SourceStringWz;
-            WzFile _oldSourceCharacter = SourceCharacterWz;
-            WzFile _oldSourceItem = SourceItemWz;
+            reverseLookup();
+        }
 
-            // the ol' switcharoo
-            SourceRegion = TargetRegion;
-            SourceStringWz = TargetStringWz;
-            SourceCharacterWz = TargetCharacterWz;
-            SourceItemWz = TargetItemWz;
-
-            TargetRegion = _oldSourceRegion;
-            TargetStringWz = _oldSourceString;
-            TargetCharacterWz = _oldSourceCharacter;
-            TargetItemWz = _oldSourceItem;
+        private void reverseLookup()
+        {
+            // switcharoo
+            swap(ref SourceRegion, ref TargetRegion);
+            swap(ref SourceWzPath, ref TargetWzPath);
+            swap(ref SourceWzs, ref TargetWzs);
 
             // reload
             searchBox.Text = "";
@@ -218,6 +205,15 @@ namespace MapleRIL
 
             regionDirectionLabel.Content = SourceRegion + " -> " + TargetRegion;
             searchBox.Focus();
+
+            LookupReversed = !LookupReversed;
+        }
+
+        private void swap<T>(ref T a, ref T b)
+        {
+            T temp = a;
+            a = b;
+            b = temp;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -235,6 +231,9 @@ namespace MapleRIL
 
         private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (LookupReversed)
+                reverseLookup();
+
             (new Setup()).ShowDialog();
         }
     }

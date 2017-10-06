@@ -9,7 +9,7 @@
     <Grid>
         <Label x:Name="sourceRegionLabel" Content="GMS" Margin="93,99,421,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="targetRegionLabel" Content="KMS" Margin="403,99,111,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" VerticalAlignment="Top" FontWeight="Bold" Foreground="White"/>
-        <Image x:Name="sourceImage" HorizontalAlignment="Left" Height="82" Margin="125,161,0,0" VerticalAlignment="Top" Width="82"/>
+        <Image x:Name="sourceImage" HorizontalAlignment="Left" Height="82" Margin="127,161,0,0" VerticalAlignment="Top" Width="82"/>
         <Image x:Name="targetImage" HorizontalAlignment="Right" Height="82" Margin="0,161,142,0" VerticalAlignment="Top" Width="82"/>
         <Label x:Name="lookupLabel" Content="Lookup: ID 200000" HorizontalAlignment="Left" Height="31" Margin="451,10,0,0" VerticalAlignment="Top" Width="176" HorizontalContentAlignment="Right" Foreground="White"/>
         <TextBlock x:Name="sourceDescBlock" HorizontalAlignment="Left" Margin="19,276,0,60" TextWrapping="Wrap" Text="A nice thing" Width="286" Foreground="White"/>

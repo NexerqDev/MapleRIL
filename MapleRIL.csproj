@@ -91,6 +91,12 @@
     <Compile Include="Setup.xaml.cs">
       <DependentUpon>Setup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Structure\EquipWzItemType.cs" />
+    <Compile Include="Structure\ItemWzItemType.cs" />
+    <Compile Include="Structure\SetupWzItemType.cs" />
+    <Compile Include="Structure\PetItemWzItemType.cs" />
+    <Compile Include="Structure\SearchedItem.cs" />
+    <Compile Include="Structure\WzItemType.cs" />
     <Page Include="Comparison.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
