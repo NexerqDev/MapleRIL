@@ -31,5 +31,13 @@ namespace MapleRIL.Structure
         public abstract List<WzImageProperty> GetAllStringIdProperties(Dictionary<string, WzFile> wzFiles);
         public abstract WzImageProperty GetStringPropertyById(Dictionary<string, WzFile> wzFiles, string id);
         public abstract WzImageProperty GetInfoPropertyById(Dictionary<string, WzFile> wzFiles, string id);
+
+        public virtual string GetDescription(WzImageProperty stringProp, WzImageProperty infoProp)
+        {
+            var d = stringProp["desc"];
+            if (d != null)
+                return d.GetString();
+            return null;
+        }
     }
 }

@@ -210,7 +210,7 @@ namespace MapleRIL
             swap(ref SourceWzs, ref TargetWzs);
 
             // reload
-            searchBox.Text = "";
+            //searchBox.Text = "";
             SearchResults.Clear();
             loadFilters();
 
