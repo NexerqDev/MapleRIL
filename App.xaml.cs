@@ -21,7 +21,7 @@ namespace MapleRIL
         {
 #if !DEBUG
             e.Handled = true;
-            MessageBox.Show("A fatal error has occured in MapleRIL. Please screenshot and report this error to Nicholas Tay <nexerq@gmail.com>!\n\n" + e.Exception.ToString(), "MapleRIL - Fatal Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("A fatal error has occured in MapleRIL. Please screenshot and report this error to Nexerq via Discord, or, with some extra details, submit an issue to the GitHub repository (nicholastay/MapleRIL)!\n\n" + e.Exception.ToString(), "MapleRIL - Fatal Exception", MessageBoxButton.OK, MessageBoxImage.Error);
             Environment.Exit(1);
 #endif
         }

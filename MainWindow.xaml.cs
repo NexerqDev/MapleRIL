@@ -41,6 +41,9 @@ namespace MapleRIL
 
         public ObservableCollection<SearchedItem> SearchResults = new ObservableCollection<SearchedItem>();
 
+        public Version AppVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        public string FriendlyAppVersion => $"v{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -66,6 +69,8 @@ namespace MapleRIL
 
             loadFilters();
             dataGrid.ItemsSource = SearchResults;
+
+            aboutLabel.Content = $"{FriendlyAppVersion} ~ Click for about info";
         }
 
         private void checkForSetup()
@@ -246,6 +251,11 @@ namespace MapleRIL
                 reverseLookup();
 
             (new Setup()).ShowDialog();
+        }
+
+        private void aboutLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            (new About(this)).ShowDialog();
         }
     }
 }

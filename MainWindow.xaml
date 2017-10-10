@@ -24,6 +24,7 @@
         <Label x:Name="warningLabel" Content="" Height="29" Margin="0,15,34,0" VerticalAlignment="Top" Foreground="Red" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="463"/>
         <Image HorizontalAlignment="Left" Height="95" Margin="28,10,0,0" VerticalAlignment="Top" Width="95" Source="logo.ico" MouseLeftButtonUp="Image_MouseLeftButtonUp"/>
         <Label Content="MapleRIL" HorizontalAlignment="Left" Height="43" Margin="128,44,0,0" VerticalAlignment="Top" Width="178" FontSize="24" Foreground="White"/>
+        <Label x:Name="aboutLabel" Content="vX.Y.Z  ~ Click for about info" Margin="235,0,223,10" Foreground="White" HorizontalContentAlignment="Center" MouseLeftButtonUp="aboutLabel_MouseLeftButtonUp" Height="24" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>
