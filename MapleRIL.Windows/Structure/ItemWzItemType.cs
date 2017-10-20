@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MapleLib.WzLib;
 
-namespace MapleRIL.Structure
+namespace MapleRIL.Windows.Structure
 {
     public class ItemWzItemType : WzItemType
     {

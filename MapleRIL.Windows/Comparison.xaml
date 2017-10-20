@@ -1,9 +1,9 @@
-﻿<Window x:Class="MapleRIL.Comparison"
+﻿<Window x:Class="MapleRIL.Windows.Comparison"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MapleRIL"
+        xmlns:local="clr-namespace:MapleRIL.Windows"
         mc:Ignorable="d"
         Title="Comparison" Height="754.248" Width="665.364" ResizeMode="NoResize" Icon="logo.ico" Background="#FF4D4B4B">
     <Grid>

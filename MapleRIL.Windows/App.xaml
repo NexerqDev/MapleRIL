@@ -1,7 +1,7 @@
-﻿<Application x:Class="MapleRIL.App"
+﻿<Application x:Class="MapleRIL.Windows.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MapleRIL"
+             xmlns:local="clr-namespace:MapleRIL.Windows"
              StartupUri="MainWindow.xaml"
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
     <Application.Resources>

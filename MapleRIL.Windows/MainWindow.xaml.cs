@@ -1,5 +1,5 @@
 ﻿using MapleLib.WzLib;
-using MapleRIL.Structure;
+using MapleRIL.Windows.Structure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
-namespace MapleRIL
+namespace MapleRIL.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

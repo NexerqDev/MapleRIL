@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL", "MapleRIL.csproj", "{2002472A-2DF3-4550-821F-1181C8C39BAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL", "MapleRIL.Windows\MapleRIL.Windows.csproj", "{2002472A-2DF3-4550-821F-1181C8C39BAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

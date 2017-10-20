@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace MapleRIL
+namespace MapleRIL.Windows
 {
     /// <summary>
     /// Interaction logic for Setup.xaml

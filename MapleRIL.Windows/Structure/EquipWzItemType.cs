@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapleRIL.Structure
+namespace MapleRIL.Windows.Structure
 {
     public class EquipWzItemType : WzItemType
     {

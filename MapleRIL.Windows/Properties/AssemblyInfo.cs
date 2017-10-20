@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("MapleStory Region Item Lookup")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NexerqDev")]
-[assembly: AssemblyProduct("MapleRIL")]
+[assembly: AssemblyProduct("MapleRIL.Windows")]
 [assembly: AssemblyCopyright("Copyright © Nicholas Tay 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MapleRIL
+namespace MapleRIL.Windows
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -15,7 +15,7 @@ namespace MapleRIL
     public partial class App : Application
     {
         private Mutex singleInstanceMutex = null;
-        private string appMutexId = @"NexerqDev-MapleRIL";
+        private string appMutexId = @"NexerqDev-MapleRIL.Windows";
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
