@@ -38,6 +38,17 @@ namespace MapleRIL.Windows
             }
 
             base.OnStartup(e);
+
+            if (MapleRIL.Windows.Properties.Settings.Default.freshlyUpgraded)
+            {
+                MapleRIL.Windows.Properties.Settings.Default.Upgrade();
+                MapleRIL.Windows.Properties.Settings.Default.freshlyUpgraded = false;
+                MapleRIL.Windows.Properties.Settings.Default.Save();
+
+                // theres no need to pop if they didnt have it set up - its a fresh install
+                if (!String.IsNullOrEmpty(MapleRIL.Windows.Properties.Settings.Default.sourceFolder))
+                    MessageBox.Show($"MapleRIL has been updated to {Util.FriendlyAppVersion}! Your previous settings have been upgraded. Welcome back!", "MapleRIL - Welcome back!", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)

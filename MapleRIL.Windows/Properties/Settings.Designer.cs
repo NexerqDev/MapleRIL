@@ -70,5 +70,17 @@ namespace MapleRIL.Windows.Properties {
                 this["targetRegion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool freshlyUpgraded {
+            get {
+                return ((bool)(this["freshlyUpgraded"]));
+            }
+            set {
+                this["freshlyUpgraded"] = value;
+            }
+        }
     }
 }
