@@ -1,5 +1,5 @@
 ﻿using MapleLib.WzLib;
-using MapleRIL.Windows.Structure;
+using MapleRIL.Common;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -25,44 +25,40 @@ namespace MapleRIL.Windows
     public partial class Comparison : Window
     {
         MainWindow _mw;
-        SearchedItem Item;
 
-        public Comparison(MainWindow mw, SearchedItem si)
+        public Comparison(MainWindow mw, RILItem sourceItem)
         {
             InitializeComponent();
 
             _mw = mw;
-            Item = si;
 
-            lookupLabel.Content = "Lookup: ID " + si.Id;
-            Title = "MapleRIL - Lookup: ID " + si.Id;
+            lookupLabel.Content = "Lookup: ID " + sourceItem.Id;
+            Title = "MapleRIL - Lookup: ID " + sourceItem.Id;
 
-            // source lookup
+            // source
             sourceRegionLabel.Content = _mw.SourceRegion;
-            sourceNameLabel.Content = si.Name;
-            WzImageProperty sourceInfoProp = si.ItemType.GetInfoPropertyById(_mw.SourceWzs, si.Id);
-            safeDescAndParse(sourceDescBlock, si.ItemType.GetDescription(si.SourceStringWzProperty, sourceInfoProp));
+            sourceNameLabel.Content = sourceItem.Name;
+            safeDescAndParse(sourceDescBlock, sourceItem.Description);
             try
             {
-                sourceImage.Source = wpfImage(sourceInfoProp["icon"].GetBitmap());
+                sourceImage.Source = Util.DrawingBmpToWpfBmp(sourceItem.Icon);
             }
             catch { }
 
-            // target lookup
+            // target
             targetRegionLabel.Content = _mw.TargetRegion;
-            WzImageProperty targetStringProp = si.ItemType.GetStringPropertyById(_mw.TargetWzs, si.Id);
-            if (targetStringProp == null)
+            RILItem targetItem = sourceItem.TryLoadInOtherFileManager(_mw.TargetRfm);
+            if (targetItem == null)
             {
                 targetNotExist();
                 return;
             }
 
-            targetNameLabel.Content = targetStringProp["name"].GetString();
-            WzImageProperty targetInfoProp = si.ItemType.GetInfoPropertyById(_mw.TargetWzs, si.Id);
-            safeDescAndParse(targetDescBlock, si.ItemType.GetDescription(targetStringProp, targetInfoProp));
+            targetNameLabel.Content = targetItem.Name;
+            safeDescAndParse(targetDescBlock, targetItem.Description);
             try
             {
-                targetImage.Source = wpfImage(sourceInfoProp["icon"].GetBitmap());
+                targetImage.Source = Util.DrawingBmpToWpfBmp(targetItem.Icon);
             }
             catch { }
         }
@@ -71,14 +67,6 @@ namespace MapleRIL.Windows
         {
             targetNameLabel.Content = "N/A";
             targetDescBlock.Text = "What d'you know? - This item seems to not exist in " + Properties.Settings.Default.targetRegion + "!";
-            return;
-        }
-
-        private BitmapFrame wpfImage(System.Drawing.Bitmap bmp)
-        {
-            MemoryStream ms = new MemoryStream();
-            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-            return BitmapFrame.Create(ms);
         }
 
         private Regex orangeDescRegex = new Regex("#c(.*?)#", RegexOptions.Singleline); // wait so singleline is the one that matches multiline strings ok then fuck thats confusing

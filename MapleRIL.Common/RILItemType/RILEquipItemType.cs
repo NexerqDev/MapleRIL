@@ -5,31 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapleRIL.Windows.Structure
+namespace MapleRIL.Common.RILItemType
 {
-    public class EquipWzItemType : WzItemType
+    public class RILEquipItemType : RILBaseItemType
     {
-        public EquipWzItemType(string name) : base(name) { }
-        public EquipWzItemType(string name, string friendlyName) : base(name, friendlyName) { }
+        public RILEquipItemType(string name) : base(name) { }
+        public RILEquipItemType(string name, string friendlyName) : base(name, friendlyName) { }
 
-        public override List<WzImageProperty> GetAllStringIdProperties(Dictionary<string, WzFile> wzFiles)
+        public override List<WzImageProperty> GetAllStringIdProperties(RILFileManager rfm)
         {
             // Eqp.img/Eqp/Accessory/ID
-            return wzFiles["String.wz"].WzDirectory.GetImageByName("Eqp.img")["Eqp"][Name].WzProperties;
+            return rfm["String.wz"].WzDirectory.GetImageByName("Eqp.img")["Eqp"][Name].WzProperties;
         }
 
-        public override WzImageProperty GetInfoPropertyById(Dictionary<string, WzFile> wzFiles, string id)
+        public override WzImageProperty GetInfoPropertyById(RILFileManager rfm, string id)
         {
             // Character.wz/Accessory/01010000.img
             string paddedId = "0" + id;
-            WzDirectory dir = wzFiles["Character.wz"].WzDirectory[Name] as WzDirectory;
+            WzDirectory dir = rfm["Character.wz"].WzDirectory[Name] as WzDirectory;
             WzImage itemImg = dir.GetImageByName(paddedId + ".img");
             return itemImg["info"];
         }
 
-        public override WzImageProperty GetStringPropertyById(Dictionary<string, WzFile> wzFiles, string id)
+        public override WzImageProperty GetStringPropertyById(RILFileManager rfm, string id)
         {
-            return wzFiles["String.wz"].WzDirectory.GetImageByName("Eqp.img")["Eqp"][Name][id];
+            return rfm["String.wz"].WzDirectory.GetImageByName("Eqp.img")["Eqp"][Name][id];
         }
 
         public override string GetDescription(WzImageProperty stringProp, WzImageProperty infoProp)

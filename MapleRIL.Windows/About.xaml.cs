@@ -28,7 +28,7 @@ namespace MapleRIL.Windows
 {0}
 (c) 2017 Nicholas Tay / ""Nexerq"" <nexerq@gmail.com>.
 Licensed under the zlib/libpng license.
-Full license text can be found in the root of the repository.", mw.FriendlyAppVersion);
+Full license text can be found in the root of the repository.", Util.FriendlyAppVersion);
             infoBlock.Text = i;
 
             System.Reflection.Assembly mlib = typeof(MapleLib.WzLib.WzFile).Assembly;
@@ -39,10 +39,10 @@ MapleLib v{0} (uses WZ component(s))
 {1}", $"{mlibFvi.ProductMajorPart}.{mlibFvi.ProductMinorPart}.{mlibFvi.ProductBuildPart}", mlibFvi.LegalCopyright);
             otherBlock.Text = o;
 
-            foreach (var file in mw.SourceWzs.Values)
-                displayListBox.Items.Add($"{mw.SourceRegion}: {file.FilePath}");
-            foreach (var file in mw.TargetWzs.Values)
-                displayListBox.Items.Add($"{mw.TargetRegion}: {file.FilePath}");
+            foreach (var file in mw.SourceRfm.LoadedFiles)
+                displayListBox.Items.Add($"{mw.SourceRegion}: {file}");
+            foreach (var file in mw.TargetRfm.LoadedFiles)
+                displayListBox.Items.Add($"{mw.TargetRegion}: {file}");
 
         }
     }

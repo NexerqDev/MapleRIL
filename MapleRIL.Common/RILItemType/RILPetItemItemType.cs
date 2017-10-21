@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapleRIL.Windows.Structure
+namespace MapleRIL.Common.RILItemType
 {
-    public class PetItemWzItemType : ItemWzItemType
+    public class RILPetItemItemType : RILItemItemType
     {
-        public PetItemWzItemType() : base("Pet") { }
+        public RILPetItemItemType() : base("Pet") { }
 
-        public override WzImageProperty GetInfoPropertyById(Dictionary<string, WzFile> wzFiles, string id)
+        public override WzImageProperty GetInfoPropertyById(RILFileManager rfm, string id)
         {
             // pets are special for some reason
             // Item.wz/Pet/02000000.img
-            WzDirectory dir = wzFiles["Item.wz"].WzDirectory[Name] as WzDirectory;
+            WzDirectory dir = rfm["Item.wz"].WzDirectory[Name] as WzDirectory;
             WzImage petImg = dir.GetImageByName(id + ".img");
             return petImg["info"];
         }

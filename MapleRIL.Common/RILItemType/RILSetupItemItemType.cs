@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapleRIL.Windows.Structure
+namespace MapleRIL.Common.RILItemType
 {
-    public class SetupItemWzItemType : ItemWzItemType
+    public class RILSetupItemItemType : RILItemItemType
     {
-        public SetupItemWzItemType() : base("Ins", "Setup") { }
+        public RILSetupItemItemType() : base("Ins", "Setup") { }
 
-        public override WzImageProperty GetInfoPropertyById(Dictionary<string, WzFile> wzFiles, string id)
+        public override WzImageProperty GetInfoPropertyById(RILFileManager rfm, string id)
         {
             // Ins -> Install
             string paddedId = "0" + id;
-            WzDirectory dir = wzFiles["Item.wz"].WzDirectory["Install"] as WzDirectory;
+            WzDirectory dir = rfm["Item.wz"].WzDirectory["Install"] as WzDirectory;
             WzImage itemImg = dir.GetImageByName(paddedId.Substring(0, 4) + ".img");
             return itemImg[paddedId]["info"];
         }

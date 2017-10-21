@@ -94,12 +94,7 @@
     <Compile Include="Setup.xaml.cs">
       <DependentUpon>Setup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Structure\EquipWzItemType.cs" />
-    <Compile Include="Structure\ItemWzItemType.cs" />
-    <Compile Include="Structure\SetupWzItemType.cs" />
-    <Compile Include="Structure\PetItemWzItemType.cs" />
-    <Compile Include="Structure\SearchedItem.cs" />
-    <Compile Include="Structure\WzItemType.cs" />
+    <Compile Include="Util.cs" />
     <Page Include="About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MapleRIL.Common\MapleRIL.Common.csproj">
+      <Project>{641E5603-F91A-4B20-BFFD-5B4469D3E18E}</Project>
+      <Name>MapleRIL.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
