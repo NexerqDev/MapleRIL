@@ -14,13 +14,22 @@ namespace MapleRIL.Common
 
         public WzImageProperty StringWzProperty; // this is the overall property, its name is the items id
 
-        private WzImageProperty _iwp = null;
+        private bool _iwpDone = false;
+        private WzImageProperty _iwp;
         public WzImageProperty InfoWzProperty
         {
             get
             {
-                if (_iwp == null)
-                    _iwp = ItemType.GetInfoPropertyById(OriginatingFileManager, Id);
+                if (!_iwpDone)
+                {
+                    try
+                    {
+                        _iwp = ItemType.GetInfoPropertyById(OriginatingFileManager, Id);
+                    }
+                    catch { _iwp = null; }
+                    _iwpDone = true;
+                }
+
                 return _iwp;
             }
         }

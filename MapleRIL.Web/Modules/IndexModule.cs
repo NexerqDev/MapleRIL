@@ -6,10 +6,9 @@ namespace MapleRIL.Web.Modules
     {
         public IndexModule()
         {
-            Get["/"] = parameters =>
-            {
-                return View["index"];
-            };
+            Get["/"] = p => View["Index"];
+            Get["/about"] = p => View["About"];
+            Get["/contact"] = p => View["Contact"];
         }
     }
 }

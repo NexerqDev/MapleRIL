@@ -1,14 +1,35 @@
 ﻿using System;
 using Nancy.Hosting.Self;
+using MapleRIL.Web.Struct;
+using Newtonsoft.Json;
+using System.IO;
+using MapleRIL.Common;
 
 namespace MapleRIL.Web
 {
     class Program
     {
+        public static Config Config;
+
         static void Main(string[] args)
         {
-            var uri =
-                new Uri("http://localhost:3579");
+            var uri = new Uri("http://localhost:3579");
+
+            Console.WriteLine("MapleRIL Web Server");
+            Console.WriteLine("-------------------------------");
+
+            Console.WriteLine("Loading config...");
+            Config = JsonConvert.DeserializeObject<Config>(
+                File.ReadAllText("./config.json"));
+
+            Console.WriteLine("Loading WZs...");
+            foreach (var r in Config.Regions)
+            {
+                RILManager.LoadSearcher(r.Region, r.FolderPath);
+                Console.WriteLine($"Loaded {r.Region} WZ + searcher. ({r.FolderPath})");
+            }
+
+            Console.WriteLine("-------------------------------");
 
             using (var host = new NancyHost(uri))
             {

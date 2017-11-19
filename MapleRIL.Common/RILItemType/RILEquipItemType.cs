@@ -34,31 +34,37 @@ namespace MapleRIL.Common.RILItemType
 
         public override string GetDescription(WzImageProperty stringProp, WzImageProperty infoProp)
         {
-            string desc = "WARNING: Equip stats are still WIP - a lot of stats may be missing!\n\n";
-            desc += "REQ LEV: " + (infoProp["reqLevel"] == null ? "0" : infoProp["reqLevel"].GetInt().ToString());
-            desc += "\n";
-            desc += "REQ STR: " + (infoProp["reqSTR"] == null ? "0" : infoProp["reqSTR"].GetInt().ToString());
-            desc += "   ";
-            desc += "REQ LUK: " + (infoProp["reqLUK"] == null ? "0" : infoProp["reqLUK"].GetInt().ToString());
-            desc += "\n";
-            desc += "REQ DEX: " + (infoProp["reqDEX"] == null ? "0" : infoProp["reqDEX"].GetInt().ToString());
-            desc += "   ";
-            desc += "REQ INT: " + (infoProp["reqINT"] == null ? "0" : infoProp["reqINT"].GetInt().ToString());
-            desc += "\n";
-            desc += (Name == "Weapon") ? (getFriendlyWeaponAttackSpeed(infoProp) + "\n") : "";
-            desc += ifIntExistsOutputFormat(infoProp, "incSTR", "STR: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "incDEX", "DEX: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "incINT", "INT: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "incLUK", "LUK: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "incPAD", "WEAPON ATTACK: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "incMAD", "MAGIC ATTACK: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "incACC", "ACCURACY: +{0}\n");
-            desc += ifIntExistsOutputFormat(infoProp, "bdR", "BOSS DAMAGE: +{0}%\n");
-            desc += ifIntExistsOutputFormat(infoProp, "imdR", "IED: +{0}%\n");
-            desc += ifIntExistsOutputFormat(infoProp, "charmEXP", "CHARM EXP ON FIRST EQUIP: +{0}%\n");
-            desc = desc.Trim();
+            if (infoProp == null)
+                return null;
 
-            return desc;
+            try
+            {
+                string desc = "WARNING: Equip stats are still WIP - a lot of stats may be missing!\n\n";
+                desc += "REQ LEV: " + (infoProp["reqLevel"] == null ? "0" : infoProp["reqLevel"].GetInt().ToString());
+                desc += "\n";
+                desc += "REQ STR: " + (infoProp["reqSTR"] == null ? "0" : infoProp["reqSTR"].GetInt().ToString());
+                desc += "   ";
+                desc += "REQ LUK: " + (infoProp["reqLUK"] == null ? "0" : infoProp["reqLUK"].GetInt().ToString());
+                desc += "\n";
+                desc += "REQ DEX: " + (infoProp["reqDEX"] == null ? "0" : infoProp["reqDEX"].GetInt().ToString());
+                desc += "   ";
+                desc += "REQ INT: " + (infoProp["reqINT"] == null ? "0" : infoProp["reqINT"].GetInt().ToString());
+                desc += "\n";
+                desc += (Name == "Weapon") ? (getFriendlyWeaponAttackSpeed(infoProp) + "\n") : "";
+                desc += ifIntExistsOutputFormat(infoProp, "incSTR", "STR: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "incDEX", "DEX: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "incINT", "INT: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "incLUK", "LUK: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "incPAD", "WEAPON ATTACK: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "incMAD", "MAGIC ATTACK: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "incACC", "ACCURACY: +{0}\n");
+                desc += ifIntExistsOutputFormat(infoProp, "bdR", "BOSS DAMAGE: +{0}%\n");
+                desc += ifIntExistsOutputFormat(infoProp, "imdR", "IED: +{0}%\n");
+                desc += ifIntExistsOutputFormat(infoProp, "charmEXP", "CHARM EXP ON FIRST EQUIP: +{0}%\n");
+                desc = desc.Trim();
+                return desc;
+            }
+            catch { return null; }
         }
 
         // eg pass in (info prop, "incLUK", "LUK: +{0}\n") -> formatted as LUK: +20\n if the value was 20

@@ -35,8 +35,6 @@ namespace MapleRIL.Windows
         public string SourceRegion => SourceRfm.Region;
         public string TargetRegion => TargetRfm.Region;
 
-        public string[] RequiredWzs = new string[] { "String.wz", "Item.wz", "Character.wz" };
-
         public ObservableCollection<RILItem> SearchResults = new ObservableCollection<RILItem>();
 
         public MainWindow()
@@ -80,8 +78,8 @@ namespace MapleRIL.Windows
 
         private void loadRfms()
         {
-            SourceRfm = new RILFileManager(Properties.Settings.Default.sourceRegion, Properties.Settings.Default.sourceFolder, RequiredWzs);
-            TargetRfm = new RILFileManager(Properties.Settings.Default.targetRegion, Properties.Settings.Default.targetFolder, RequiredWzs);
+            SourceRfm = new RILFileManager(Properties.Settings.Default.sourceRegion, Properties.Settings.Default.sourceFolder);
+            TargetRfm = new RILFileManager(Properties.Settings.Default.targetRegion, Properties.Settings.Default.targetFolder);
         }
 
         private void loadSearcher()

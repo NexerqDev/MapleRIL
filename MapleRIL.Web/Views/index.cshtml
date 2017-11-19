@@ -1,20 +1,12 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>MapleRIL.Web</title>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
+@{ ViewBag.Title = "Home"; }
 
-	<style type="text/css">
+<div class="jumbotron index-heading text-center">
+    <h1 class="display-3">
+        <img src="/assets/logo.png" /><br />
+        MapleRIL
+    </h1>
 
-		body {
-			text-align: center;
-		}
-
-	</style>
-
-</head>
-<body>
-	<img src="~/Content/nancy-logo.png" alt="Nancy logo" /><br />
-	This view was rendered using the Nancy Razor view engine
-</body>
-</html>
+    <p>MapleStory Region Item Lookup - Look up items across different regions with ease.</p>
+    <p><a class="btn btn-primary btn-lg" href="#">Begin searching!</a></p>
+</div>

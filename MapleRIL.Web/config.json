@@ -1,0 +1,12 @@
+﻿{
+  "regions": [
+    {
+      "region": "KMS",
+      "folderPath": "D:\\Games\\Nexon_KR\\Maple"
+    },
+    {
+      "region": "GMS",
+      "folderPath": "D:\\Games\\Nexon\\Library\\maplestory\\appdata"
+    }
+  ]
+}

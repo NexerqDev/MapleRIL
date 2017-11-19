@@ -35,6 +35,9 @@ namespace MapleRIL.Common.RILItemType
 
         public virtual string GetDescription(WzImageProperty stringProp, WzImageProperty infoProp)
         {
+            if (infoProp == null)
+                return null;
+
             var d = stringProp["desc"];
             if (d != null)
                 return d.GetString();
@@ -45,7 +48,10 @@ namespace MapleRIL.Common.RILItemType
         {
             try
             {
-               return infoProp["icon"].GetBitmap();
+                if (infoProp == null)
+                    return null;
+
+                return infoProp["icon"].GetBitmap();
             }
             catch
             {
