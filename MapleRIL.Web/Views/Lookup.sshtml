@@ -2,10 +2,8 @@
 
 @Section['BodyEndData']
     <script>
-        window.MapleRIL = {
-            id: "@Model.Id",
-            region: "@Model.Region"
-        };
+        window.MapleRIL.id = "@Model.Id";
+        window.MapleRIL.region = "@Model.Region";
     </script>
 
     <script src="//unpkg.com/axios/dist/axios.min.js"></script>

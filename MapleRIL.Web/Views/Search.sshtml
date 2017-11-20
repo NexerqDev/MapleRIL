@@ -6,10 +6,8 @@
 
 @Section['BodyEndData']
     <script>
-        window.MapleRIL = {
-            query: "@Model.Query",
-            region: "@Model.Region"
-        };
+        window.MapleRIL.query = "@Model.Query";
+        window.MapleRIL.region = "@Model.Region";
     </script>
 
     <script src="//unpkg.com/axios/dist/axios.min.js"></script>

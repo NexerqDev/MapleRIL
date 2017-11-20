@@ -6,7 +6,10 @@ namespace MapleRIL.Web.Modules
     {
         public IndexModule()
         {
-            Get["/"] = p => View["Index", new { Title = "Home" }];
+            Get["/"] = p => View["Index", new {
+                Title = "Home",
+                Regions = RILManager.JsonRegionData
+            }];
         }
     }
 }

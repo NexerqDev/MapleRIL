@@ -10,14 +10,16 @@ namespace MapleRIL.Web.Modules
             {
                 Title = "Search",
                 Query = (string)this.Request.Query["q"],
-                Region = (string)this.Request.Query["region"]
+                Region = (string)this.Request.Query["region"],
+                Regions = RILManager.JsonRegionData
             }];
 
             Get["/lookup"] = p => View["Lookup", new
             {
                 Title = "Search",
                 Id = (string)this.Request.Query["id"],
-                Region = (string)this.Request.Query["region"]
+                Region = (string)this.Request.Query["region"],
+                Regions = RILManager.JsonRegionData
             }];
         }
     }

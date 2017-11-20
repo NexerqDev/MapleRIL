@@ -1,4 +1,6 @@
 ﻿using MapleRIL.Common;
+using MapleRIL.Web.Struct;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,18 @@ namespace MapleRIL.Web
 {
     public static class RILManager
     {
+        // idk caching should be most efficient, kinda ugly though
+        public static string _jrd = null;
+        public static string JsonRegionData
+        {
+            get
+            {
+                if (_jrd == null)
+                    _jrd = JsonConvert.SerializeObject(new ApiRegions(Program.Config.Regions.Select(r => r.Region).ToArray()).Regions);
+                return _jrd;
+            }
+        }
+
         public static Dictionary<string, RILFileManager> Rfms = new Dictionary<string, RILFileManager>();
         public static Dictionary<string, RILSearcher> Searchers = new Dictionary<string, RILSearcher>();
 

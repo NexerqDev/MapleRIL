@@ -5,7 +5,7 @@ var app = new Vue({
     data: {
         query: window.MapleRIL.query,
         region: window.MapleRIL.region,
-        regions: [],
+        regions: window.MapleRIL.regions,
         lookup: [],
         emptyLoad: false,
         searching: false
@@ -14,13 +14,8 @@ var app = new Vue({
         if (!this.query || !this.region)
             this.emptyLoad = true;
 
-        this.$http.get('/api/regions')
-            .then(resp => {
-                this.regions = resp.data.regions;
-
-                if (!this.region)
-                    this.region = this.regions[0].region;
-            });
+        if (!this.region)
+            this.region = this.regions[0].region;
 
         this.search();
     },
