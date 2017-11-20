@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>MapleRIL - @Model.Title</title>
 
-    <link href="/dist/css/bootstrap.flatly.min.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/Static/dist/css/bootstrap.flatly.min.css" rel="stylesheet" />
+    <link href="/Static/css/style.css" rel="stylesheet" />
 
     @Section['HeadData']
 </head>

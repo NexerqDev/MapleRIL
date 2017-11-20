@@ -12,7 +12,7 @@ namespace MapleRIL.Web
         // serve statics from root
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
-            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("/", "Content"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("/Static", "Static"));
             base.ConfigureConventions(nancyConventions);
         }
     }

@@ -14,7 +14,7 @@
 
     <script src="//unpkg.com/axios/dist/axios.min.js"></script>
     <script src="//unpkg.com/vue"></script>
-    <script src="/js/search.js"></script>
+    <script src="/Static/js/search.js"></script>
 @EndSection
 
 @Section['Content']
