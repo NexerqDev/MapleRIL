@@ -1,13 +1,13 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>MapleRIL - @ViewBag.Title</title>
+    <title>MapleRIL - @Model.Title</title>
 
     <link href="/dist/css/bootstrap.flatly.min.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" />
+
+    @Section['HeadData']
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -36,16 +36,18 @@
     </nav>
 
     <div class="container">
-        @RenderBody()
+        @Section['Content']
     </div>
 
     <footer class="footer">
         <div class="container">
             <div class="text-muted text-center">
-                made with &lt;3 by <a href="https://twitter.com/@("@_nexerq")">@("@_nexerq")</a><br />
+                made with &lt;3 by <a href="https://twitter.com/@_nexerq">@_nexerq</a><br />
                 MapleStory and related trademarks are (c) Nexon Corporation and this website is completely a fan-made website and has no affiliation with Nexon.
             </div>
         </div>
     </footer>
+
+    @Section['BodyEndData']
 </body>
 </html>

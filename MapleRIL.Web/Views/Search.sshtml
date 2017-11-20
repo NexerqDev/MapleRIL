@@ -1,0 +1,65 @@
+﻿@Master['_Layout']
+
+@Section['HeadData']
+    <link rel="stylesheet" href="//unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
+@EndSection
+
+@Section['BodyEndData']
+    <script>
+        window.MapleRIL = {
+            query: "@Model.Query",
+            region: "@Model.Region"
+        };
+    </script>
+
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="//unpkg.com/vue"></script>
+    <script src="/js/search.js"></script>
+@EndSection
+
+@Section['Content']
+    <div id="app" v-cloak>
+        <h2>Search</h2>
+
+        <div class="form-inline">
+            <input class="form-control mr-sm-2" v-on:keyup.enter="search" type="text" placeholder="Search" v-model="query">
+            <select class="form-control mr-sm-2" v-model="region">
+                <option v-for="r in regions" v-bind:value="r.region">
+                    {{ r.region }} ({{ r.version }})
+                </option>
+            </select>
+            <button class="btn btn-secondary my-2 my-sm-0" type="button" v-on:click="search">Search</button>
+        </div>
+
+        <div v-if="searching" class="text-center mt-2">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div v-else>
+            <div v-if="lookup.length">
+                <div class="alert alert-info mt-2">
+                    <strong>Note!</strong> Click on an item in the table below to cross-region lookup!
+                </div>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID #</th>
+                            <th>Item</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in lookup">
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.category }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else-if="!emptyLoad" class="alert alert-danger mt-2">
+                <strong>No items found.</strong> Try looking the item up perhaps in a different way!
+            </div>
+        </div>
+    </div>
+@EndSection
