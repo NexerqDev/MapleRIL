@@ -16,7 +16,7 @@ var app = new Vue({
 
         this.$http.get('/api/regions')
             .then(resp => {
-                this.regions = resp.data.regions
+                this.regions = resp.data.regions;
 
                 if (!this.region)
                     this.region = this.regions[0].region;
@@ -35,8 +35,14 @@ var app = new Vue({
                     this.lookup = resp.data.items;
                     this.emptyLoad = false;
                     this.searching = false;
+
+                    if (window.history.pushState)
+                        window.history.pushState({}, "MapleRIL - Search", `?q=${this.query}&region=${this.region}`); // update browser url
                 })
                 .catch(e => this.searching = false);
+        },
+        redirLookup: function (item) {
+            window.location.href = `/lookup?id=${item.id}&region=${this.region}`;
         }
     }
 });

@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in lookup">
+                        <tr v-for="item in lookup" v-on:click="redirLookup(item)">
                             <td>{{ item.id }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.category }}</td>

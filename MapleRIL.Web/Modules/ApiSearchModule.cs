@@ -10,8 +10,6 @@ namespace MapleRIL.Web.Modules
     {
         public ApiSearchModule()
         {
-            Get["/api"] = p => Response.AsText(": )");
-
             Get["/api/search"] = p =>
             {
                 string query = this.Request.Query["q"];

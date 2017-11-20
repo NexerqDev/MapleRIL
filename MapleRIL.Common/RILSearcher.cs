@@ -57,5 +57,31 @@ namespace MapleRIL.Common
 
             return props.Select(p => new RILItem(FileManager, p, type)).ToArray();
         }
+
+        /// <summary>
+        /// ID MUST BE NON-PADDED (2000000, NO LEADING ZERO)
+        /// </summary>
+        public RILItem GetItemById(string id, RILBaseItemType type)
+        {
+            // prop name = id
+            List<WzImageProperty> searchProperties = type.GetAllStringIdProperties(FileManager);
+            WzImageProperty prop = searchProperties.FirstOrDefault(p => p.Name == id);
+            if (prop != null)
+                return new RILItem(FileManager, prop, type);
+            else
+                return null;
+        }
+
+        // non-specific type lookup
+        public RILItem GetItemById(string id)
+        {
+            RILItem item;
+            foreach (RILBaseItemType it in ItemTypes)
+            {
+                if ((item = GetItemById(id, it)) != null)
+                    return item;
+            }
+            return null;
+        }
     }
 }
