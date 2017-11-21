@@ -9,6 +9,7 @@ var app = new Vue({
         invalid: false,
         loading: true,
         sourceRegion: null,
+        targetRegionBind: "_dummy",
         targetRegion: null,
         sourceData: null,
         targetData: null
@@ -20,20 +21,20 @@ var app = new Vue({
             return;
         }
 
-            // invalid region
-            var region = this.regions.find(r => r.region === this.region);
-            if (!region) {
-                this.invalid = true;
-                this.loading = false;
-                return;
-            }
+        // invalid region
+        var region = this.regions.find(r => r.region === this.region);
+        if (!region) {
+            this.invalid = true;
+            this.loading = false;
+            return;
+        }
 
-            this.sourceRegion = region;
+        this.sourceRegion = region;
 
-            // get source data
-            this.lookupInRegion(this.region)
-                .then(d => this.sourceData = d)
-                .then(() => this.loading = false);
+        // get source data
+        this.lookupInRegion(this.region)
+            .then(d => this.sourceData = d)
+            .then(() => this.loading = false);
     },
     methods: {
         lookupInRegion: function (regionName) {
@@ -44,6 +45,16 @@ var app = new Vue({
 
                     return resp.data.item;
                 });
+        },
+        selectTarget: function () {
+            if (this.targetRegionBind === "_dummy")
+                return;
+            this.targetRegion = this.regions.find(r => r.region === this.targetRegionBind);
+
+            this.loading = true;
+            this.lookupInRegion(this.targetRegionBind)
+                .then(d => this.targetData = d)
+                .then(() => this.loading = false);
         }
     }
 });

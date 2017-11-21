@@ -1,5 +1,9 @@
 ﻿@Master['_Layout']
 
+@Section['HeadData']
+    <link rel="stylesheet" href="//unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
+@EndSection
+
 @Section['BodyEndData']
     <script>
         window.MapleRIL.id = "@Model.Id";
@@ -30,14 +34,14 @@
                     <div class="col-lg-6">
                         <div class="card text-center">
                             <h3 class="card-header">{{ sourceRegion.region }} ({{ sourceRegion.version }})</h3>
-                            <img class="mt-2" style="height: 50px; object-fit: contain; display: block;" :src="sourceData.icon" :alt="sourceData.name">
+                            <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="sourceData.icon" :alt="sourceData.name">
                             <div class="card-body">
                                 <h5 class="card-title">{{ sourceData.name }}</h5>
                                 <h6 class="card-subtitle text-muted">{{ sourceData.category }}</h6>
                             </div>
                             <div class="card-body" style="padding-top: 0;">
                                 <p class="card-text">
-                                    <pre style="font-family: inherit;">{{ sourceData.description }}</pre>
+                                    <pre style="font-family: inherit; white-space: pre-wrap; overflow-x: hidden;">{{ sourceData.description }}</pre>
                                 </p>
                             </div>
                             <div class="card-footer text-muted">
@@ -48,19 +52,44 @@
 
                     <div class="col-lg-6">
                         <div class="card text-center">
-                            <h3 class="card-header">{{ sourceRegion.region }} ({{ sourceRegion.version }})</h3>
-                            <img class="mt-2" style="height: 50px; object-fit: contain; display: block;" :src="sourceData.icon" :alt="sourceData.name">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ sourceData.name }}</h5>
-                                <h6 class="card-subtitle text-muted">{{ sourceData.category }}</h6>
+                            <!-- Target region selected & loaded -->
+                            <div v-if="targetRegion">
+                                <h3 class="card-header">{{ targetRegion.region }} ({{ targetRegion.version }})</h3>
+
+                                <div v-if="targetData"> <!-- have data -->
+                                    <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="targetData.icon" :alt="sourceData.name">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ targetData.name }}</h5>
+                                        <h6 class="card-subtitle text-muted">{{ targetData.category }}</h6>
+                                    </div>
+                                    <div class="card-body" style="padding-top: 0;">
+                                        <p class="card-text">
+                                            <pre style="font-family: inherit; white-space: pre-wrap; overflow-x: hidden;">{{ targetData.description }}</pre>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div v-else> <!-- no data -->
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Looks like this item doesn't exist in this region!
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body" style="padding-top: 0;">
-                                <p class="card-text">
-                                    <pre style="font-family: inherit;">{{ sourceData.description }}</pre>
-                                </p>
+
+                            <!-- No target region -->
+                            <div v-else>
+                                <h3 class="card-header">Select a region!</h3>
                             </div>
+
+
                             <div class="card-footer text-muted">
-                                This will soon be the target region&#39;s item.
+                                <select class="form-control" v-model="targetRegionBind" style="width: 200px; margin: 0 auto;" @change="selectTarget">
+                                    <option disabled value="_dummy">Target Region</option>
+                                    <option v-for="r in regions" v-bind:value="r.region">
+                                        {{ r.region }} ({{ r.version }})
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
