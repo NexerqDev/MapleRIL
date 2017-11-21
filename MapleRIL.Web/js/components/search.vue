@@ -80,6 +80,8 @@
                         this.emptyLoad = false;
                         this.searching = false;
 
+                        window.localStorage.setItem("region", this.region);
+
                         if (window.history.pushState)
                             window.history.pushState({}, "MapleRIL", `?q=${this.query}&region=${this.region}`); // update browser url
                     })

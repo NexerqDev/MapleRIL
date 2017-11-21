@@ -28,12 +28,13 @@ const app = new Vue({
         topbarQueryRegion: null
     },
     created: function () {
-        this.topbarQueryRegion = this.regions[0].region;
+        this.topbarQueryRegion = window.localStorage.getItem("region") || this.regions[0].region;
     },
     methods: {
         topbarSearch: function () {
             if (!this.topbarQuery)
                 return;
+            window.localStorage.setItem("region", this.topbarQueryRegion);
             window.location.href = `/search?q=${this.topbarQuery}&region=${this.topbarQueryRegion}`;
         }
     }

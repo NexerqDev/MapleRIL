@@ -122,6 +122,15 @@
             // get source data
             this.lookupInRegion(this.region)
                 .then(d => this.sourceData = d)
+                .then(() => {
+                    // check for target
+                    var preTarget = window.localStorage.getItem("targetRegion");
+                    if (preTarget) {
+                        this.targetRegionBind = preTarget;
+                        this.selectTarget();
+                    }
+                    return;
+                })
                 .then(() => this.loading = false);
         },
         methods: {
@@ -138,6 +147,7 @@
                 if (this.targetRegionBind === "_dummy")
                     return;
                 this.targetRegion = this.$root.regions.find(r => r.region === this.targetRegionBind);
+                window.localStorage.setItem("targetRegion", this.targetRegionBind);
 
                 this.loading = true;
                 this.lookupInRegion(this.targetRegionBind)
