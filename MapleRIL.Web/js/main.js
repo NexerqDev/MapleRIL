@@ -4,13 +4,15 @@ import VueRouter from "vue-router"
 import HomeComponent from "./components/home.vue"
 import SearchComponent from "./components/search.vue"
 import LookupComponent from "./components/lookup.vue"
+import AboutComponent from "./components/about.vue"
 
 Vue.use(VueRouter)
 
 const routes = [
     { path: "/", component: HomeComponent },
     { path: "/search", component: SearchComponent },
-    { path: "/lookup", component: LookupComponent }
+    { path: "/lookup", component: LookupComponent },
+    { path: "/about", component: AboutComponent }
 ]
 
 const router = new VueRouter({
