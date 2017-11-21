@@ -1,33 +1,16 @@
-﻿@Master['_Layout']
-
-@Section['HeadData']
-    <link rel="stylesheet" href="//unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
-@EndSection
-
-@Section['BodyEndData']
-    <script>
-        window.MapleRIL.id = "@Model.Id";
-        window.MapleRIL.region = "@Model.Region";
-    </script>
-
-    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="//unpkg.com/vue"></script>
-    <script src="/Static/js/lookup.js"></script>
-@EndSection
-
-@Section['Content']
-    <div id="app" v-cloak>
+﻿<template>
+    <div id="lookup">
         <div v-if="loading" class="text-center mt-2">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             <span class="sr-only">Loading...</span>
         </div>
-        <div v-else>
+        <div v-else="">
             <div v-if="invalid">
                 <div class="alert alert-dismissible alert-danger">
                     <strong>Invalid lookup.</strong> <a href="#" onclick="window.location.back();">Click here to return to the previous page.</a>.
                 </div>
             </div>
-            <div v-else>
+            <div v-else="">
                 <h2>Lookup ID: {{ queryId }}</h2>
 
                 <div class="row">
@@ -56,7 +39,8 @@
                             <div v-if="targetRegion">
                                 <h3 class="card-header">{{ targetRegion.region }} ({{ targetRegion.version }})</h3>
 
-                                <div v-if="targetData"> <!-- have data -->
+                                <div v-if="targetData">
+                                    <!-- have data -->
                                     <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="targetData.icon" :alt="sourceData.name">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ targetData.name }}</h5>
@@ -68,7 +52,8 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div v-else> <!-- no data -->
+                                <div v-else="">
+                                    <!-- no data -->
                                     <div class="card-body">
                                         <p class="card-text">
                                             Looks like this item doesn't exist in this region!
@@ -78,15 +63,15 @@
                             </div>
 
                             <!-- No target region -->
-                            <div v-else>
+                            <div v-else="">
                                 <h3 class="card-header">Select a region!</h3>
                             </div>
 
 
                             <div class="card-footer text-muted">
                                 <select class="form-control" v-model="targetRegionBind" style="width: 200px; margin: 0 auto;" @change="selectTarget">
-                                    <option disabled value="_dummy">Target Region</option>
-                                    <option v-for="r in regions" v-bind:value="r.region">
+                                    <option disabled="" value="_dummy">Target Region</option>
+                                    <option v-for="r in $root.regions" v-bind:value="r.region">
                                         {{ r.region }} ({{ r.version }})
                                     </option>
                                 </select>
@@ -97,4 +82,68 @@
             </div>
         </div>
     </div>
-@EndSection
+</template>
+
+
+<script>
+    import axios from "axios";
+
+    export default {
+        data: function () {
+            return {
+                queryId: window.MapleRIL.id,
+                region: window.MapleRIL.region,
+                invalid: false,
+                loading: true,
+                sourceRegion: null,
+                targetRegionBind: "_dummy",
+                targetRegion: null,
+                sourceData: null,
+                targetData: null
+            }
+        },
+        created: function () {
+            if (!this.queryId || !this.region) {
+                this.invalid = true;
+                this.loading = false;
+                return;
+            }
+
+            // invalid region
+            var region = this.$root.regions.find(r => r.region === this.region);
+            if (!region) {
+                this.invalid = true;
+                this.loading = false;
+                return;
+            }
+
+            this.sourceRegion = region;
+
+            // get source data
+            this.lookupInRegion(this.region)
+                .then(d => this.sourceData = d)
+                .then(() => this.loading = false);
+        },
+        methods: {
+            lookupInRegion: function (regionName) {
+                return axios.get(`/api/item?id=${this.queryId}&region=${regionName}`)
+                    .then(resp => {
+                        if (resp.data.error && resp.data.error._errid === "NO_ITEM")
+                            return null;
+
+                        return resp.data.item;
+                    });
+            },
+            selectTarget: function () {
+                if (this.targetRegionBind === "_dummy")
+                    return;
+                this.targetRegion = this.$root.regions.find(r => r.region === this.targetRegionBind);
+
+                this.loading = true;
+                this.lookupInRegion(this.targetRegionBind)
+                    .then(d => this.targetData = d)
+                    .then(() => this.loading = false);
+            }
+        }
+    }
+</script>

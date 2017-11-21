@@ -1,13 +1,64 @@
-﻿@Master['_Layout']
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>MapleRIL</title>
 
-@Section['Content']
-    <div class="jumbotron index-heading text-center">
-        <h1 class="display-3">
-            <img src="/Static/assets/logo.png" /><br />
-            MapleRIL
-        </h1>
+    <link href="/Static/dist/css/bootstrap.flatly.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link href="/Static/css/style.css" rel="stylesheet" />
 
-        <p>MapleStory Region Item Lookup - Look up items across different regions with ease.</p>
-        <p><a class="btn btn-primary btn-lg" href="#">Begin searching!</a></p>
+    <script>
+        window.MapleRIL = {
+            regions: @Model.Regions,
+            id: "@Model.Id",
+            region: "@Model.Region",
+            query: "@Model.Query"
+        };
+    </script>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="/">
+                <img src="/Static/assets/logo.png" />
+                MapleRIL
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <div class="form-inline my-2 my-lg-0">
+                    <input id="topbar-search-input" class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <select id="topbar-search-region" class="form-control mr-sm-2"></select>
+                    <button class="btn btn-secondary my-2 my-sm-0" type="button" onclick="redirSearch()">Search</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <router-view></router-view>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="text-muted text-center">
+                    made with &lt;3 by <a href="https://twitter.com/@_nexerq">@_nexerq</a><br />
+                    MapleStory and related trademarks are (c) Nexon Corporation and this website is completely a fan-made website and has no affiliation with Nexon.
+                </div>
+            </div>
+        </footer>
     </div>
-@EndSection
+
+    <script src="/Static/js/build.js"></script>
+</body>
+</html>

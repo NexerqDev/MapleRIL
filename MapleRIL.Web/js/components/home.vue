@@ -1,0 +1,15 @@
+﻿<template>
+    <div id="home">
+        <div class="jumbotron index-heading text-center">
+            <h1 class="display-3">
+                <img src="/Static/assets/logo.png" /><br />
+                MapleRIL
+            </h1>
+
+            <p>MapleStory Region Item Lookup - Look up items across different regions with ease.</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="#">Begin searching!</a>
+            </p>
+        </div>
+    </div>
+</template>

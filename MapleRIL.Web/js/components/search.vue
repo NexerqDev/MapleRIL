@@ -1,28 +1,11 @@
-﻿@Master['_Layout']
-
-@Section['HeadData']
-    <link rel="stylesheet" href="//unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
-@EndSection
-
-@Section['BodyEndData']
-    <script>
-        window.MapleRIL.query = "@Model.Query";
-        window.MapleRIL.region = "@Model.Region";
-    </script>
-
-    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="//unpkg.com/vue"></script>
-    <script src="/Static/js/search.js"></script>
-@EndSection
-
-@Section['Content']
-    <div id="app" v-cloak>
+﻿<template>
+    <div id="search">
         <h2>Search</h2>
 
         <div class="form-inline">
             <input class="form-control mr-sm-2" v-on:keyup.enter="search" type="text" placeholder="Search" v-model="query">
             <select class="form-control mr-sm-2" v-model="region">
-                <option v-for="r in regions" v-bind:value="r.region">
+                <option v-for="r in $root.regions" v-bind:value="r.region">
                     {{ r.region }} ({{ r.version }})
                 </option>
             </select>
@@ -33,7 +16,7 @@
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             <span class="sr-only">Loading...</span>
         </div>
-        <div v-else>
+        <div v-else="">
             <div v-if="lookup.length">
                 <div class="alert alert-info mt-2">
                     <strong>Note!</strong> Click on an item in the table below to cross-region lookup!
@@ -60,4 +43,51 @@
             </div>
         </div>
     </div>
-@EndSection
+</template>
+
+
+<script>
+    import axios from "axios";
+
+    export default {
+        data: function () {
+            return {
+                query: window.MapleRIL.query,
+                region: window.MapleRIL.region,
+                lookup: [],
+                emptyLoad: false,
+                searching: false
+            }
+        },
+        created: function () {
+            if (!this.query || !this.region)
+                this.emptyLoad = true;
+
+            if (!this.region)
+                this.region = this.$root.regions[0].region;
+
+            this.search();
+        },
+        methods: {
+            search: function (e) {
+                if (!this.query || !this.region)
+                    return;
+
+                this.searching = true;
+                axios.get(`/api/search?q=${this.query}&region=${this.region}`)
+                    .then(resp => {
+                        this.lookup = resp.data.items;
+                        this.emptyLoad = false;
+                        this.searching = false;
+
+                        if (window.history.pushState)
+                            window.history.pushState({}, "MapleRIL", `?q=${this.query}&region=${this.region}`); // update browser url
+                    })
+                    .catch(e => this.searching = false);
+            },
+            redirLookup: function (item) {
+                window.location.href = `/lookup?id=${item.id}&region=${this.region}`;
+            }
+        }
+    }
+</script>
