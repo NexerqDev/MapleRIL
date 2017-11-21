@@ -20,7 +20,9 @@
     "webpack": "^3.8.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-prod": "NODE_ENV=production webpack",
+    "build-dev": "webpack",
+    "dev-watch": "webpack --watch"
   },
   "author": "Nicholas Tay <nexerq@gmail.com>",
   "license": "Zlib"

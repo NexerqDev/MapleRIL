@@ -2,9 +2,10 @@
 
 ## Dev instructions
 
-If using Visual Studio, get Webpack loader extension. Ensure node.js installed. Task Runner Explorer > Run in VS, or Watch when devving.
+Ensure node.js installed.
 
 ```
 $ npm install -g webpack
 $ npm install
+$ npm run build-prod # for prod (use build-dev for dev)
 ```
