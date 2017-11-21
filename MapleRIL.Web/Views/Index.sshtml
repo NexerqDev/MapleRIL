@@ -5,7 +5,7 @@
     <title>MapleRIL</title>
 
     <link href="/Static/dist/css/bootstrap.flatly.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="//unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link href="/Static/dist/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/Static/css/style.css" rel="stylesheet" />
 
     <script>
