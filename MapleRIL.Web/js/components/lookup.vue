@@ -91,8 +91,8 @@
     export default {
         data: function () {
             return {
-                queryId: window.MapleRIL.id,
-                region: window.MapleRIL.region,
+                queryId: this.$route.query.id,
+                region: this.$route.query.region,
                 invalid: false,
                 loading: true,
                 sourceRegion: null,
@@ -124,7 +124,7 @@
                 .then(d => this.sourceData = d)
                 .then(() => {
                     // check for target
-                    var preTarget = window.localStorage.getItem("targetRegion");
+                    var preTarget = this.$route.query.target || window.localStorage.getItem("targetRegion");
                     if (preTarget) {
                         this.targetRegionBind = preTarget;
                         this.selectTarget();
@@ -152,7 +152,8 @@
                 this.loading = true;
                 this.lookupInRegion(this.targetRegionBind)
                     .then(d => this.targetData = d)
-                    .then(() => this.loading = false);
+                    .then(() => this.loading = false)
+                    .then(() => this.$router.replace({ path: "/lookup", query: { id: this.queryId, region: this.region, target: this.targetRegionBind } }));
             }
         }
     }

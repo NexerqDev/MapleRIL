@@ -10,10 +10,7 @@
 
     <script>
         window.MapleRIL = {
-            regions: @Model.Regions,
-            id: "@Model.Id",
-            region: "@Model.Region",
-            query: "@Model.Query"
+            regions: @Model.Regions
         };
     </script>
 </head>

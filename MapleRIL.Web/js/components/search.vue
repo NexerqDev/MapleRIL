@@ -52,8 +52,8 @@
     export default {
         data: function () {
             return {
-                query: window.MapleRIL.query,
-                region: window.MapleRIL.region,
+                query: this.$route.query.q,
+                region: this.$route.query.region || window.localStorage.getItem("region"),
                 lookup: [],
                 emptyLoad: false,
                 searching: false
@@ -81,14 +81,12 @@
                         this.searching = false;
 
                         window.localStorage.setItem("region", this.region);
-
-                        if (window.history.pushState)
-                            window.history.pushState({}, "MapleRIL", `?q=${this.query}&region=${this.region}`); // update browser url
+                        this.$router.push({ path: "/search", query: { q: this.query, region: this.region }}); // update browser url
                     })
                     .catch(e => this.searching = false);
             },
             redirLookup: function (item) {
-                window.location.href = `/lookup?id=${item.id}&region=${this.region}`;
+                this.$router.push({ path: "/lookup", query: { id: item.id, region: this.region }});
             }
         }
     }

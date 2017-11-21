@@ -7,10 +7,7 @@ namespace MapleRIL.Web.Modules
     {
         public Negotiator IndexVR => View["Index", new
         {
-            Regions = RILManager.JsonRegionData,
-            Query = (string)this.Request.Query["q"],
-            Region = (string)this.Request.Query["region"],
-            Id = (string)this.Request.Query["id"]
+            Regions = RILManager.JsonRegionData
         }];
 
         public IndexModule()
