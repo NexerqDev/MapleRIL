@@ -37,10 +37,15 @@
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
-                <div class="form-inline my-2 my-lg-0">
-                    <input id="topbar-search-input" class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <select id="topbar-search-region" class="form-control mr-sm-2"></select>
-                    <button class="btn btn-secondary my-2 my-sm-0" type="button" onclick="redirSearch()">Search</button>
+                
+                <div class="form-inline">
+                    <input class="form-control mr-sm-2" v-on:keyup.enter="topbarSearch" type="text" placeholder="Search" v-model="topbarQuery">
+                    <select class="form-control mr-sm-2" v-model="topbarQueryRegion">
+                        <option v-for="r in $root.regions" v-bind:value="r.region">
+                            {{ r.region }} ({{ r.version }})
+                        </option>
+                    </select>
+                    <button class="btn btn-secondary my-2 my-sm-0" type="button" v-on:click="topbarSearch">Search</button>
                 </div>
             </div>
         </nav>

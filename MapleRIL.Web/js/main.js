@@ -21,6 +21,18 @@ const router = new VueRouter({
 const app = new Vue({
     router,
     data: {
-        regions: window.MapleRIL.regions
+        regions: window.MapleRIL.regions,
+        topbarQuery: null,
+        topbarQueryRegion: null
+    },
+    created: function () {
+        this.topbarQueryRegion = this.regions[0].region;
+    },
+    methods: {
+        topbarSearch: function () {
+            if (!this.topbarQuery)
+                return;
+            window.location.href = `/search?q=${this.topbarQuery}&region=${this.topbarQueryRegion}`;
+        }
     }
 }).$mount("#app")
