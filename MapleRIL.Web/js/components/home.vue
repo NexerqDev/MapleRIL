@@ -8,7 +8,7 @@
 
             <p>MapleStory Region Item Lookup - Look up items across different regions with ease.</p>
             <p>
-                <a class="btn btn-primary btn-lg" href="#">Begin searching!</a>
+                <router-link class="btn btn-primary btn-lg" to="/search">Begin searching!</router-link>
             </p>
         </div>
     </div>

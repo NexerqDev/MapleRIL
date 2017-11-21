@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <router-link class="nav-link" to="/">Home</router-link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>

@@ -117,19 +117,10 @@
     <None Include="package.json" />
     <None Include="README.md" />
     <None Include="Static\js\.gitkeep" />
-    <None Include="Views\Lookup.sshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Views\_Index.sshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Views\Index.sshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Views\Search.sshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Web.Debug.config">
