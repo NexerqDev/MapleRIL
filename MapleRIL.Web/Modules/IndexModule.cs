@@ -1,13 +1,30 @@
 ﻿using Nancy;
 using Nancy.Responses.Negotiation;
+using Newtonsoft.Json;
 
 namespace MapleRIL.Web.Modules
 {
     public class IndexModule : NancyModule
     {
+        // cache this stuff so we dont always call it
+        private string _spd = null;
+        private string staticPassData
+        {
+            get
+            {
+                if (_spd == null)
+                    _spd = JsonConvert.SerializeObject(new
+                    {
+                        regions = RILManager.RegionData
+                    });
+
+                return _spd;
+            }
+        }
+
         public Negotiator IndexVR => View["Index", new
         {
-            Regions = RILManager.JsonRegionData
+            JsonPassthru = staticPassData
         }];
 
         public IndexModule()

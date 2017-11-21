@@ -9,9 +9,7 @@
     <link href="/Static/css/style.css" rel="stylesheet" />
 
     <script>
-        window.MapleRIL = {
-            regions: @Model.Regions
-        };
+        window.MapleRIL = @Model.JsonPassthru
     </script>
 </head>
 <body>

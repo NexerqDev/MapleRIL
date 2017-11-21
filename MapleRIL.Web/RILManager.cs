@@ -6,19 +6,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MapleRIL.Web.Struct.ApiRegions;
 
 namespace MapleRIL.Web
 {
     public static class RILManager
     {
         // idk caching should be most efficient, kinda ugly though
-        public static string _jrd = null;
-        public static string JsonRegionData
+        public static ApiRegion[] _jrd = null;
+        public static ApiRegion[] RegionData
         {
             get
             {
                 if (_jrd == null)
-                    _jrd = JsonConvert.SerializeObject(new ApiRegions(Program.Config.Regions.Select(r => r.Region).ToArray()).Regions);
+                    _jrd = new ApiRegions(Program.Config.Regions.Select(r => r.Region).ToArray()).Regions;
                 return _jrd;
             }
         }
