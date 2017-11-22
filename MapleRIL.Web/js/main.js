@@ -5,6 +5,7 @@ import HomeComponent from "./components/home.vue"
 import SearchComponent from "./components/search.vue"
 import SearchLookupComponent from "./components/searchLookup.vue"
 import AboutComponent from "./components/about.vue"
+import NotFoundComponent from "./components/404.vue"
 
 Vue.use(VueRouter)
 
@@ -12,7 +13,8 @@ const routes = [
     { path: "/", component: HomeComponent },
     { path: "/search", component: SearchComponent },
     { path: "/search/lookup", component: SearchLookupComponent },
-    { path: "/about", component: AboutComponent }
+    { path: "/about", component: AboutComponent },
+    { path: "*", component: NotFoundComponent } // 404 catch all
 ]
 
 const router = new VueRouter({
