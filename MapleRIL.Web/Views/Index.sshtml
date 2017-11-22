@@ -51,8 +51,17 @@
         <footer class="footer">
             <div class="container">
                 <div class="text-muted text-center">
+                    <div class="social-box">
+                        <a href="https://github.com/nicholastay/MapleRIL">
+                            <i class="fa fa-github-alt" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/@_nexerq">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
                     made with &lt;3 by <a href="https://twitter.com/@_nexerq">@_nexerq</a><br />
-                    MapleStory and related trademarks are (c) Nexon Corporation and this website is completely a fan-made website and has no affiliation with Nexon.
+                    MapleStory and related images/trademarks are (c) Nexon Corporation. This website is a completely fan-made website and has no affiliation with Nexon.
                 </div>
             </div>
         </footer>

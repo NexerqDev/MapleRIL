@@ -31,6 +31,14 @@ body {
     display: none;
 }
 
+.social-box {
+    padding: 3px;
+}
+.social-box a {
+    margin: 0 2px;
+    color: inherit;
+}
+
 /* transition goodies */
 /* fade - enter only as this is for the initial page loaded */
 .fade-enter {
