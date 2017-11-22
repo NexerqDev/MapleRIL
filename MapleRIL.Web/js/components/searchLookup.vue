@@ -125,7 +125,7 @@
                 .then(() => {
                     // check for target
                     var preTarget = this.$route.query.target || window.localStorage.getItem("targetRegion");
-                    if (preTarget) {
+                    if (preTarget && this.$root.regions.find(r => r.region === preTarget)) { // check for validity first
                         this.targetRegionBind = preTarget;
                         this.selectTarget();
                     }

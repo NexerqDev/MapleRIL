@@ -62,6 +62,9 @@
         created: function () {
             if (!this.query || !this.region)
                 this.emptyLoad = true;
+            
+            if (this.region && !this.$root.regions.find(r => r.region === this.region))
+                this.region = null; // invalid region
 
             if (!this.region)
                 this.region = this.$root.regions[0].region;
