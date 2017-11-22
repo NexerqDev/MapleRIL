@@ -30,3 +30,32 @@ body {
 [v-cloak] {
     display: none;
 }
+
+/* transition goodies */
+/* fade - enter only as this is for the initial page loaded */
+.fade-enter {
+    opacity: 0;
+}
+.fade-enter-active {
+    transition: opacity .3s;
+}
+
+/* slide for other stuff - use the dynamic thing to left or right */
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: all .3s;
+}
+.slide-left-enter,
+.slide-right-leave-active {
+    opacity: 0;
+    -webkit-transform: translate(150px, 0);
+    transform: translate(150px, 0);
+}
+.slide-left-leave-active,
+.slide-right-enter {
+    opacity: 0;
+    -webkit-transform: translate(-150px, 0);
+    transform: translate(-150px, 0);
+}

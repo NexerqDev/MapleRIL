@@ -153,7 +153,7 @@
                 this.lookupInRegion(this.targetRegionBind)
                     .then(d => this.targetData = d)
                     .then(() => this.loading = false)
-                    .then(() => this.$router.replace({ path: "/lookup", query: { id: this.queryId, region: this.region, target: this.targetRegionBind } }));
+                    .then(() => this.$router.replace({ path: "/search/lookup", query: { id: this.queryId, region: this.region, target: this.targetRegionBind } }));
             }
         }
     }

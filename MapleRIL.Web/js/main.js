@@ -3,7 +3,7 @@ import VueRouter from "vue-router"
 
 import HomeComponent from "./components/home.vue"
 import SearchComponent from "./components/search.vue"
-import LookupComponent from "./components/lookup.vue"
+import SearchLookupComponent from "./components/searchLookup.vue"
 import AboutComponent from "./components/about.vue"
 
 Vue.use(VueRouter)
@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 const routes = [
     { path: "/", component: HomeComponent },
     { path: "/search", component: SearchComponent },
-    { path: "/lookup", component: LookupComponent },
+    { path: "/search/lookup", component: SearchLookupComponent },
     { path: "/about", component: AboutComponent }
 ]
 
@@ -25,7 +25,8 @@ const app = new Vue({
     data: {
         regions: window.MapleRIL.regions,
         topbarQuery: null,
-        topbarQueryRegion: null
+        topbarQueryRegion: null,
+        transitionName: "fade"
     },
     created: function () {
         this.topbarQueryRegion = window.localStorage.getItem("region") || this.regions[0].region;
@@ -35,7 +36,15 @@ const app = new Vue({
             if (!this.topbarQuery)
                 return;
             window.localStorage.setItem("region", this.topbarQueryRegion);
-            window.location.href = `/search?q=${this.topbarQuery}&region=${this.topbarQueryRegion}`;
+            this.$router.push({ path: "/search", query: { q: this.topbarQuery, region: this.topbarQueryRegion } });
+        }
+    },
+    watch: {
+        // route watcher to do slide/fades
+        "$route": function (to, from) {
+            const fromDepth = from.path.split('/').length
+            const toDepth = to.path === "/" ? 1 : to.path.split('/').length
+            this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
         }
     }
 }).$mount("#app")

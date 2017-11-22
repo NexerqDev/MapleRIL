@@ -113,7 +113,7 @@
     </Content>
     <Content Include="webpack.config.js" />
     <None Include="app.config" />
-    <None Include="js\components\lookup.vue" />
+    <None Include="js\components\searchLookup.vue" />
     <None Include="js\components\search.vue">
       <SubType>Designer</SubType>
     </None>

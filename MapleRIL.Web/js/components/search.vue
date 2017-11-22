@@ -86,7 +86,7 @@
                     .catch(e => this.searching = false);
             },
             redirLookup: function (item) {
-                this.$router.push({ path: "/lookup", query: { id: item.id, region: this.region }});
+                this.$router.push({ path: "/search/lookup", query: { id: item.id, region: this.region }});
             }
         }
     }
