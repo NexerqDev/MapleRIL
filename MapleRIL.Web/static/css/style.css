@@ -45,6 +45,11 @@ body {
     color: inherit;
 }
 
+a.router-link-exact-active.nav-link {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #18BC9C !important;
+}
+
 /* transition goodies */
 /* fade - enter only as this is for the initial page loaded */
 .fade-enter {
