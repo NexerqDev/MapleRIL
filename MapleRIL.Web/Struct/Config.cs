@@ -12,6 +12,9 @@ namespace MapleRIL.Web.Struct
         [JsonProperty("base_url")]
         public string BaseUrl { get; set; }
 
+        [JsonProperty("nancy_admin_password")]
+        public string NancyAdminPassword { get; set; }
+
         [JsonProperty("regions")]
         public ConfigRegion[] Regions { get; set; }
 
