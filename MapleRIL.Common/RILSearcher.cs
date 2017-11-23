@@ -40,13 +40,20 @@ namespace MapleRIL.Common
             return res.ToArray();
         }
 
+        private Regex nonEnglishCharacters = new Regex("[^\x00-\x7F]");
         public RILItem[] SearchInType(RILBaseItemType type, string query)
         {
             List<WzImageProperty> searchProperties = type.GetAllStringIdProperties(FileManager); // these are the properties we will be looping for the item names
 
             // look up a property in the image, eg 2000000 where inside the property "name"'s string is what the user is looking for.
             // loose search so use regexes
-            Regex r = new Regex("(^| )" + query + "($| |')", RegexOptions.IgnoreCase);
+            // dont match strictly for non-english characters with boundaries
+            Regex r;
+            if (nonEnglishCharacters.IsMatch(query))
+                r = new Regex(Regex.Escape(query), RegexOptions.IgnoreCase);
+            else
+                r = new Regex(@"\b" + Regex.Escape(query) + @"\b", RegexOptions.IgnoreCase);
+
             IEnumerable<WzImageProperty> props = searchProperties.Where(w => {
                 var nameProp = w.WzProperties.Where(p => p.Name == "name");
                 if (nameProp.Count() < 1)
