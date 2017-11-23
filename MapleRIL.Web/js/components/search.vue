@@ -16,8 +16,13 @@
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             <span class="sr-only">Loading...</span>
         </div>
-        <div v-else="">
+        <div v-else>
             <div v-if="lookup.length">
+                <div class="clearfix">
+                    <div class="form-inline pull-right">
+                        Filter: <input type="text" class="form-control ml-2" v-model="filter" @input="updateFilter">
+                    </div>
+                </div>
                 <div class="alert alert-info mt-2">
                     <strong>Note!</strong> Click on an item in the table below to cross-region lookup!
                 </div>
@@ -30,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in lookup" v-on:click="redirLookup(item)">
+                        <tr v-for="item in filteredLookup" v-on:click="redirLookup(item)">
                             <td>{{ item.id }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.category }}</td>
@@ -48,6 +53,7 @@
 
 <script>
     import axios from "axios";
+    import escapeRegex from "escape-string-regexp";
 
     export default {
         data: function () {
@@ -56,13 +62,15 @@
                 region: this.$route.query.region || window.localStorage.getItem("region"),
                 lookup: [],
                 emptyLoad: false,
-                searching: false
+                searching: false,
+                filter: "",
+                filteredLookup: []
             }
         },
         created: function () {
             if (!this.query || !this.region)
                 this.emptyLoad = true;
-            
+
             if (this.region && !this.$root.regions.find(r => r.region === this.region))
                 this.region = null; // invalid region
 
@@ -80,6 +88,9 @@
                 axios.get(`/api/search?q=${this.query}&region=${this.region}`)
                     .then(resp => {
                         this.lookup = resp.data.items;
+                        this.filteredLookup = resp.data.items;
+
+                        this.filter = "";
                         this.emptyLoad = false;
                         this.searching = false;
 
@@ -87,6 +98,15 @@
                         this.$router.push({ path: "/search", query: { q: this.query, region: this.region }}); // update browser url
                     })
                     .catch(e => this.searching = false);
+            },
+            updateFilter: function () {
+                if (!this.filter) {
+                    this.filteredLookup = this.lookup;
+                    return;
+                }
+
+                let filterReg = new RegExp(escapeRegex(this.filter), "i");
+                this.filteredLookup = this.lookup.filter(i => filterReg.test(i.name));
             },
             redirLookup: function (item) {
                 this.$router.push({ path: "/search/lookup", query: { id: item.id, region: this.region }});
