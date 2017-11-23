@@ -8,6 +8,10 @@
     <link href="/Static/dist/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/Static/css/style.css" rel="stylesheet" />
 
+    <meta property="og:title" content="MapleRIL" />
+    <meta property="og:image" content="@Model.BaseUrl/Static/assets/logo.png" />
+    <meta property="og:url" content="@Model.BaseUrl/" />
+
     <script>
         window.MapleRIL = @Model.JsonPassthru
     </script>

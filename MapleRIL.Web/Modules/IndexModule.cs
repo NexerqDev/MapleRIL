@@ -24,7 +24,8 @@ namespace MapleRIL.Web.Modules
 
         public Negotiator IndexVR => View["Index", new
         {
-            JsonPassthru = staticPassData
+            JsonPassthru = staticPassData,
+            BaseUrl = Program.Config.BaseUrl
         }];
 
         public IndexModule()

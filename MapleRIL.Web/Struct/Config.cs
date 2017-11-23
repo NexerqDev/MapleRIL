@@ -9,6 +9,9 @@ namespace MapleRIL.Web.Struct
 {
     public class Config
     {
+        [JsonProperty("base_url")]
+        public string BaseUrl { get; set; }
+
         [JsonProperty("regions")]
         public ConfigRegion[] Regions { get; set; }
 
