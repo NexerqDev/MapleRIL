@@ -17,10 +17,10 @@ namespace MapleRIL.Web.Modules
 
                 string region = this.Request.Query["region"];
                 if (string.IsNullOrEmpty(region)
-                 || !RILManager.RegionJsons.ContainsKey(region))
+                 || !WebEngine.Rjm.RegionJsons.ContainsKey(region))
                     return Response.AsJson(new WebError("Invalid region."));
 
-                var items = RILManager.RegionJsons[region].Search(query);
+                var items = WebEngine.Rjm.RegionJsons[region].Search(query);
                 return Response.AsJson(new SearchedQuery(region, items));
             };
         }

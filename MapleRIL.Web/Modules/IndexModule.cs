@@ -1,6 +1,8 @@
-﻿using Nancy;
+﻿using MapleRIL.Web.Struct;
+using Nancy;
 using Nancy.Responses.Negotiation;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace MapleRIL.Web.Modules
 {
@@ -15,7 +17,7 @@ namespace MapleRIL.Web.Modules
                 if (_spd == null)
                     _spd = JsonConvert.SerializeObject(new
                     {
-                        regions = RILManager.RegionData
+                        regions = new ApiRegions(WebEngine.Config.Regions.Select(r => r.Region).ToArray()).Regions
                     });
 
                 return _spd;
@@ -25,7 +27,7 @@ namespace MapleRIL.Web.Modules
         public Negotiator IndexVR => View["Index", new
         {
             JsonPassthru = staticPassData,
-            BaseUrl = Bootstrapper.Config.BaseUrl
+            BaseUrl = WebEngine.Config.BaseUrl
         }];
 
         public IndexModule()

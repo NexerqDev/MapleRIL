@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MapleRIL.Common.RILJson;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace MapleRIL.Web.Struct
         public string Region { get; set; }
 
         [JsonProperty("item")]
-        public SearchedItem Item { get; set; }
+        public RILJsonItem Item { get; set; }
 
-        public SearchedIdQuery(string region, SearchedItem item)
+        public SearchedIdQuery(string region, RILJsonItem item)
         {
             Region = region;
             Item = item;

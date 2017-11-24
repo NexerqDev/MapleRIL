@@ -1,5 +1,4 @@
 ﻿using MapleLib.WzLib;
-using MapleRIL.Web.Struct;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,16 +8,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MapleRIL.Web
+namespace MapleRIL.Common.RILJson
 {
-    public class RILJson
+    public class RILJsonEngine
     {
         public string Region;
         public string JsonPath;
         public RILJsonFormat Data;
         public string[] Categories;
 
-        public RILJson(string region, string path)
+        public RILJsonEngine(string region, string path)
         {
             Region = region;
             JsonPath = path;
@@ -27,7 +26,7 @@ namespace MapleRIL.Web
         }
 
         private Regex nonEnglishCharacters = new Regex("[^\x00-\x7F]");
-        public SearchedItem[] Search(string query)
+        public RILJsonItem[] Search(string query)
         {
             // loose search so use regexes
             // dont match strictly for non-english characters with boundaries
@@ -37,14 +36,14 @@ namespace MapleRIL.Web
             else
                 r = new Regex(@"\b" + Regex.Escape(query) + @"\b", RegexOptions.IgnoreCase);
 
-            List<SearchedItem> items = new List<SearchedItem>();
+            List<RILJsonItem> items = new List<RILJsonItem>();
             foreach (var cat in Data.Categories)
             {
                 foreach (var item in cat.Items)
                 {
                     if (r.IsMatch(item.Name))
                     {
-                        items.Add(new SearchedItem()
+                        items.Add(new RILJsonItem()
                         {
                             Category = cat.Category,
                             Id = item.Id,
@@ -59,14 +58,14 @@ namespace MapleRIL.Web
             return items.ToArray();
         }
 
-        public SearchedItem GetItemById(string id)
+        public RILJsonItem GetItemById(string id)
         {
             foreach (var cat in Data.Categories)
             {
                 foreach (var item in cat.Items)
                 {
                     if (item.Id == id)
-                        return new SearchedItem()
+                        return new RILJsonItem()
                         {
                             Category = cat.Category,
                             Id = item.Id,

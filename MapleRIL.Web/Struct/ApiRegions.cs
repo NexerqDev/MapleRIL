@@ -17,7 +17,7 @@ namespace MapleRIL.Web.Struct
             Regions = r.Select(f => new ApiRegion()
             {
                 Region = f,
-                Version = RILManager.RegionJsons[f].Data.Version
+                Version = WebEngine.Rjm.RegionJsons[f].Data.Version
             }).ToArray();
         }
 

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapleRIL.Web.Struct
+namespace MapleRIL.Common.RILJson
 {
-    public class SearchedItem
+    public class RILJsonItem
     {
         [JsonProperty("id")]
         public string Id { get; set; }
