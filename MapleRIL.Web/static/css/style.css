@@ -51,12 +51,13 @@ a.router-link-exact-active.nav-link {
 }
 
 /* transition goodies */
-/* fade - enter only as this is for the initial page loaded */
-.fade-enter {
+/* fade - for the initial page loaded */
+body {
     opacity: 0;
 }
-.fade-enter-active {
-    transition: opacity .3s;
+.fade {
+    opacity: 1;
+    transition: opacity 1.2s ease;
 }
 
 /* slide for other stuff - use the dynamic thing to left or right */

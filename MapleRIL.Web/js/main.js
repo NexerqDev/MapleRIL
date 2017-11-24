@@ -39,6 +39,9 @@ const app = new Vue({
 
         let favs = window.localStorage.getItem("favorites");
         this.favorites = favs ? JSON.parse(favs) : [];
+
+        // once we all loaded transition go go go
+        document.body.className = "fade";
     },
     methods: {
         topbarSearch: function () {
