@@ -16,7 +16,13 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card text-center">
-                            <h3 class="card-header">{{ sourceRegion.region }} ({{ sourceRegion.version }})</h3>
+                            <h3 class="card-header">
+                                {{ sourceRegion.region }} ({{ sourceRegion.version }})
+                                <span class="pull-right">
+                                    <i v-if="favorited" class="fa fa-star" aria-hidden="true" v-on:click="favorite(false)" style="cursor: pointer; color: #ffc300;"></i>
+                                    <i v-else class="fa fa-star-o" aria-hidden="true" v-on:click="favorite(true)" style="cursor: pointer;"></i>
+                                </span>
+                            </h3>
                             <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="sourceData.icon" :alt="sourceData.name">
                             <div class="card-body">
                                 <h5 class="card-title">{{ sourceData.name }}</h5>
@@ -99,7 +105,8 @@
                 targetRegionBind: "_dummy",
                 targetRegion: null,
                 sourceData: null,
-                targetData: null
+                targetData: null,
+                favorited: null
             }
         },
         created: function () {
@@ -132,6 +139,8 @@
                     return;
                 })
                 .then(() => this.loading = false);
+
+            this.favorited = this.$root.favorites.find(f => f.id === this.queryId && f.region === this.region);
         },
         methods: {
             lookupInRegion: function (regionName) {
@@ -154,6 +163,17 @@
                     .then(d => this.targetData = d)
                     .then(() => this.loading = false)
                     .then(() => this.$router.replace({ path: "/search/lookup", query: { id: this.queryId, region: this.region, target: this.targetRegionBind } }));
+            },
+            favorite: function (toStatus) {
+                if (toStatus) {
+                    this.favorited = { id: this.queryId, name: this.sourceData.name, category: this.sourceData.category, region: this.region };
+                    this.$root.favorites.push(this.favorited);
+                } else {
+                    this.$root.favorites.splice(this.$root.favorites.indexOf(this.favorited), 1);
+                    this.favorited = null;
+                }
+
+                this.$root.saveFavorites();
             }
         }
     }
