@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Windows", "MapleRIL.Windows\MapleRIL.Windows.csproj", "{2002472A-2DF3-4550-821F-1181C8C39BAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Common", "MapleRIL.Common\MapleRIL.Common.csproj", "{641E5603-F91A-4B20-BFFD-5B4469D3E18E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Web", "MapleRIL.Web\MapleRIL.Web.csproj", "{68F5F5F3-B8BB-4911-875F-6F00AAE04EA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Web.Asp", "MapleRIL.Web.Asp\MapleRIL.Web.Asp.csproj", "{0591B4B2-DE6A-45D5-82FB-E46517D59386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,15 @@ Global
 		{68F5F5F3-B8BB-4911-875F-6F00AAE04EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68F5F5F3-B8BB-4911-875F-6F00AAE04EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68F5F5F3-B8BB-4911-875F-6F00AAE04EA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0591B4B2-DE6A-45D5-82FB-E46517D59386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0591B4B2-DE6A-45D5-82FB-E46517D59386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0591B4B2-DE6A-45D5-82FB-E46517D59386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0591B4B2-DE6A-45D5-82FB-E46517D59386}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED2AF958-7D70-40BD-8AA0-9D4557F5175F}
 	EndGlobalSection
 EndGlobal

@@ -19,7 +19,7 @@ namespace MapleRIL.Web
             get
             {
                 if (_jrd == null)
-                    _jrd = new ApiRegions(Program.Config.Regions.Select(r => r.Region).ToArray()).Regions;
+                    _jrd = new ApiRegions(Bootstrapper.Config.Regions.Select(r => r.Region).ToArray()).Regions;
                 return _jrd;
             }
         }
