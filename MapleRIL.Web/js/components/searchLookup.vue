@@ -166,7 +166,7 @@
             },
             favorite: function (toStatus) {
                 if (toStatus) {
-                    this.favorited = { id: this.queryId, name: this.sourceData.name, category: this.sourceData.category, region: this.region };
+                    this.favorited = { id: this.queryId, name: this.sourceData.name, category: this.sourceData.category, region: this.region, icon: this.sourceData.icon };
                     this.$root.favorites.push(this.favorited);
                 } else {
                     this.$root.favorites.splice(this.$root.favorites.indexOf(this.favorited), 1);

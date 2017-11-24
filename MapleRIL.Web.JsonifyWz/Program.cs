@@ -13,8 +13,8 @@ namespace MapleRIL.Web.JsonifyWz
 {
     class Program
     {
-        const string REGION = "KMS";
-        const string GAME_PATH = @"D:\Games\Nexon_KR\Maple";
+        const string REGION = "GMS";
+        const string GAME_PATH = @"D:\Games\Nexon\Library\maplestory\appdata";
 
         static void Main(string[] args)
         {

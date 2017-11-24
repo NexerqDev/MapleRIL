@@ -29,6 +29,7 @@
                 <table class="table table-striped table-hover table-bordered">
                     <thead class="thead-dark">
                         <tr>
+                            <th width="32px"></th>
                             <th>ID #</th>
                             <th>Item</th>
                             <th>Category</th>
@@ -36,6 +37,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="item in filteredLookup" v-on:click="redirLookup(item)">
+                            <td><img class="center-block" v-bind:src="item.icon" width="32px"></td>
                             <td>{{ item.id }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.category }}</td>

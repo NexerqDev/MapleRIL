@@ -39,7 +39,7 @@ const app = new Vue({
         if (r) {
             let s = this.regions.find(i => i.region === r)
             if (s) {
-                this.topbarQueryRegion = s;
+                this.topbarQueryRegion = s.region;
             } else {
                 this.topbarQueryRegion = this.regions[0].region;
             }

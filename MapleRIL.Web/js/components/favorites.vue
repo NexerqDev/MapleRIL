@@ -6,6 +6,7 @@
             <table class="table table-striped table-hover table-bordered">
                 <thead class="thead-dark">
                     <tr>
+                        <th width="32px"></th>
                         <th>Region</th>
                         <th>ID #</th>
                         <th>Item</th>
@@ -15,6 +16,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="fav in $root.favorites" v-on:click="gotoFav(fav)">
+                        <td><img v-bind:src="fav.icon" width="32px"></td>
                         <td>{{ fav.region }}</td>
                         <td>{{ fav.id }}</td>
                         <td>{{ fav.name }}</td>
