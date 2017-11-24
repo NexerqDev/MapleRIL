@@ -1,4 +1,5 @@
 ﻿{
+  "port": 3579,
   "base_url": "http://mapleril.nexerq.cf",
   "nancy_admin_password": ""
   "regions": [

@@ -13,8 +13,6 @@ namespace MapleRIL.Web
 
         static void Main(string[] args)
         {
-            var uri = new Uri("http://localhost:3579");
-
             Console.WriteLine("MapleRIL Web Server");
             Console.WriteLine("-------------------------------");
 
@@ -31,6 +29,7 @@ namespace MapleRIL.Web
 
             Console.WriteLine("-------------------------------");
 
+            var uri = new Uri("http://localhost:" + Config.Port.ToString());
             using (var host = new NancyHost(uri))
             {
                 host.Start();
