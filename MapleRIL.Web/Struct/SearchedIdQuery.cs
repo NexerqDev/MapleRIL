@@ -13,9 +13,9 @@ namespace MapleRIL.Web.Struct
         public string Region { get; set; }
 
         [JsonProperty("item")]
-        public SearchedDetailedItem Item { get; set; }
+        public SearchedItem Item { get; set; }
 
-        public SearchedIdQuery(string region, SearchedDetailedItem item)
+        public SearchedIdQuery(string region, SearchedItem item)
         {
             Region = region;
             Item = item;

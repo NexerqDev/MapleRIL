@@ -28,8 +28,8 @@ namespace MapleRIL.Web.Struct
             [JsonProperty("region")]
             public string Region { get; set; }
 
-            [JsonProperty("folderPath")]
-            public string FolderPath { get; set; }
+            [JsonProperty("json")]
+            public string JsonPath { get; set; }
         }
     }
 }

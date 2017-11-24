@@ -35,7 +35,17 @@ const app = new Vue({
         favorites: null
     },
     created: function () {
-        this.topbarQueryRegion = window.localStorage.getItem("region") || this.regions[0].region;
+        let r = window.localStorage.getItem("region");
+        if (r) {
+            let s = this.regions.find(i => i.region === r)
+            if (s) {
+                this.topbarQueryRegion = s;
+            } else {
+                this.topbarQueryRegion = this.regions[0].region;
+            }
+        } else {
+            this.topbarQueryRegion = this.regions[0].region;
+        }
 
         let favs = window.localStorage.getItem("favorites");
         this.favorites = favs ? JSON.parse(favs) : [];

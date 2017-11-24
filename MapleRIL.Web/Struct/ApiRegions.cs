@@ -1,5 +1,4 @@
-﻿using MapleRIL.Common;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace MapleRIL.Web.Struct
             Regions = r.Select(f => new ApiRegion()
             {
                 Region = f,
-                Version = RILManager.Rfms[f].GameVersion
+                Version = RILManager.RegionJsons[f].Data.Version
             }).ToArray();
         }
 

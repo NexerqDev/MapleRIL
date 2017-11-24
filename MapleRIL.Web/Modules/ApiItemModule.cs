@@ -1,5 +1,4 @@
-﻿using MapleRIL.Common;
-using MapleRIL.Web.Struct;
+﻿using MapleRIL.Web.Struct;
 using Nancy;
 using System;
 using System.Linq;
@@ -18,24 +17,14 @@ namespace MapleRIL.Web.Modules
 
                 string region = this.Request.Query["region"];
                 if (string.IsNullOrEmpty(region)
-                 || !RILManager.Searchers.ContainsKey(region))
+                 || !RILManager.RegionJsons.ContainsKey(region))
                     return Response.AsJson(new WebError("Invalid region."));
 
-                RILItem item = RILManager.Searchers[region].GetItemById(id);
+                SearchedItem item = RILManager.RegionJsons[region].GetItemById(id);
                 if (item == null)
                     return Response.AsJson(new WebError("No item given by that ID.", "NO_ITEM"));
 
-                System.Drawing.Bitmap icon = item.Icon;
-                SearchedDetailedItem sdi = new SearchedDetailedItem()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Category = item.Category,
-                    Description = item.Description,
-                    Icon = icon == null ? null : "data:image/png;base64," + Convert.ToBase64String(Util.BitmapToBytes(icon))
-                };
-
-                return Response.AsJson(new SearchedIdQuery(region, sdi));
+                return Response.AsJson(new SearchedIdQuery(region, item));
             };
         }
     }

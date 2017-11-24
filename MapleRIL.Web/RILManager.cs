@@ -1,5 +1,4 @@
-﻿using MapleRIL.Common;
-using MapleRIL.Web.Struct;
+﻿using MapleRIL.Web.Struct;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,27 +23,13 @@ namespace MapleRIL.Web
             }
         }
 
-        public static Dictionary<string, RILFileManager> Rfms = new Dictionary<string, RILFileManager>();
-        public static Dictionary<string, RILSearcher> Searchers = new Dictionary<string, RILSearcher>();
+        public static Dictionary<string, RILJson> RegionJsons = new Dictionary<string, RILJson>();
 
-        public static RILFileManager LoadRfm(string region, string path)
+        public static RILJson LoadJson(string region, string path)
         {
-            var rfm = new RILFileManager(region, path);
-            Rfms.Add(region, rfm);
-            return rfm;
-        }
-
-        public static RILSearcher LoadSearcher(string region, string path = null)
-        {
-            RILFileManager rfm;
-            if (!Rfms.ContainsKey(region))
-                rfm = LoadRfm(region, path);
-            else
-                rfm = Rfms[region];
-
-            var searcher = new RILSearcher(rfm);
-            Searchers.Add(region, searcher);
-            return searcher;
+            var rj = new RILJson(region, path);
+            RegionJsons.Add(region, rj);
+            return rj;
         }
     }
 }

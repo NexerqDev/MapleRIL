@@ -2,7 +2,6 @@
 using MapleRIL.Web.Struct;
 using Newtonsoft.Json;
 using System.IO;
-using MapleRIL.Common;
 
 namespace MapleRIL.Web
 {
@@ -22,8 +21,8 @@ namespace MapleRIL.Web
             Console.WriteLine("Loading WZs...");
             foreach (var r in Config.Regions)
             {
-                RILManager.LoadSearcher(r.Region, r.FolderPath);
-                Console.WriteLine($"Loaded {r.Region} WZ + searcher. ({r.FolderPath})");
+                //RILManager.LoadSearcher(r.Region, r.FolderPath);
+                //Console.WriteLine($"Loaded {r.Region} WZ + searcher. ({r.FolderPath})");
             }
 
             Console.WriteLine("-------------------------------");

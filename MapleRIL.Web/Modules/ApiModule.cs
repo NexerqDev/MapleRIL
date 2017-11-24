@@ -9,9 +9,6 @@ namespace MapleRIL.Web.Modules
         public ApiModule()
         {
             Get["/api"] = p => Response.AsText(": )");
-
-            Get["/api/regions"] = p => Response.AsJson(
-                new ApiRegions(Program.Config.Regions.Select(r => r.Region).ToArray()));
         }
     }
 }

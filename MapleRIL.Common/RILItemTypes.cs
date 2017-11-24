@@ -14,7 +14,7 @@ namespace MapleRIL.Common
             var items = new List<RILBaseItemType> // default Item.wz types
             {
                 new RILItemItemType("Consume"),
-                new RILItemItemType("Etc"),
+                new RILEtcItemItemType(),
                 new RILPetItemItemType(),
                 new RILItemItemType("Cash"),
                 new RILSetupItemItemType()

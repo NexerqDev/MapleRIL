@@ -29,8 +29,8 @@ namespace MapleRIL.Web
             Console.WriteLine("Loading WZs...");
             foreach (var r in Config.Regions)
             {
-                RILManager.LoadSearcher(r.Region, r.FolderPath);
-                Console.WriteLine($"Loaded {r.Region} WZ + searcher. ({r.FolderPath})");
+                RILManager.LoadJson(r.Region, Path.Combine(System.Web.HttpRuntime.BinDirectory, r.JsonPath));
+                Console.WriteLine($"Loaded {r.Region} JSON data. ({r.JsonPath})");
             }
 
             Console.WriteLine("-------------------------------");

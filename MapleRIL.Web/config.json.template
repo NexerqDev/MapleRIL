@@ -1,15 +1,10 @@
 ﻿{
-  "port": 3579,
   "base_url": "http://mapleril.nexerq.cf",
-  "nancy_admin_password": ""
+  "nancy_admin_password": "",
   "regions": [
     {
       "region": "KMS",
-      "folderPath": "D:\\Games\\Nexon_KR\\Maple"
-    },
-    {
-      "region": "GMS",
-      "folderPath": "D:\\Games\\Nexon\\Library\\maplestory\\appdata"
+      "json": "KMS.json"
     }
   ]
 }

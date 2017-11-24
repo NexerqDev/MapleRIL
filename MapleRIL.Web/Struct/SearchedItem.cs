@@ -18,7 +18,10 @@ namespace MapleRIL.Web.Struct
         [JsonProperty("category")]
         public string Category { get; set; }
 
-        //[JsonProperty("icon")]
-        //public string Icon { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
     }
 }
