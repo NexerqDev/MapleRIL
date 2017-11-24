@@ -12,5 +12,5 @@ $ npm run build-prod # for prod (use build-dev for dev)
 $ cp config.json.template config.json # then edit whatever
 
 # edit config.json
-# fire up VS & MapleRIL.sln, compile the Web project and launch
+# fire up VS & MapleRIL.sln, compile the Web project and launch - .Self to use nancy's selfhost, .Asp to use ASP.NET/IIS
 ```
