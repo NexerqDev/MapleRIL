@@ -1,6 +1,7 @@
 ﻿using MapleLib.WzLib;
 using MapleRIL.Common;
 using MapleRIL.Common.RILItemType;
+using MapleRIL.Common.RILJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,27 +23,27 @@ namespace MapleRIL.JsonifyWz
             var rfm = new RILFileManager(REGION, GAME_PATH);
             var typs = RILItemTypes.GetAllItemTypes(rfm);
 
-            var data = new OutputData();
+            var data = new RILJsonFormat();
             data.Region = REGION;
             data.Version = rfm.GameVersion;
 
-            var catdata = new List<OutputData.CategoryData>();
+            var catdata = new List<RILJsonFormat.CategoryData>();
             foreach (RILBaseItemType typ in typs)
             {
                 Console.WriteLine("Writing " + typ.FriendlyName);
                 List<WzImageProperty> props = typ.GetAllStringIdProperties(rfm);
 
                 var items = props.Select(p => new RILItem(rfm, p, typ));
-                var category = new OutputData.CategoryData();
+                var category = new RILJsonFormat.CategoryData();
                 category.Category = typ.FriendlyName;
 
-                var convItems = new List<OutputData.CategoryData.CatItem>();
+                var convItems = new List<RILJsonFormat.CategoryData.CatItem>();
                 foreach (var i in items)
                 {
                     try
                     {
                         var icon = i.Icon;
-                        convItems.Add(new OutputData.CategoryData.CatItem()
+                        convItems.Add(new RILJsonFormat.CategoryData.CatItem()
                         {
                             Id = i.Id,
                             Name = i.Name,
@@ -70,43 +71,6 @@ namespace MapleRIL.JsonifyWz
             {
                 bmp.Save(ms, format);
                 return ms.ToArray();
-            }
-        }
-
-        public class OutputData
-        {
-            [JsonProperty("region")]
-            public string Region { get; set; }
-
-            [JsonProperty("version")]
-            public string Version { get; set; }
-
-            [JsonProperty("categories")]
-            public CategoryData[] Categories { get; set; }
-
-            public class CategoryData
-            {
-                [JsonProperty("category")]
-                public string Category { get; set; }
-
-                [JsonProperty("items")]
-                public CatItem[] Items { get; set; }
-
-
-                public class CatItem
-                {
-                    [JsonProperty("id")]
-                    public string Id { get; set; }
-
-                    [JsonProperty("name")]
-                    public string Name { get; set; }
-
-                    [JsonProperty("description")]
-                    public string Description { get; set; }
-
-                    [JsonProperty("icon")]
-                    public string Icon { get; set; }
-                }
             }
         }
     }
