@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Web", "MapleRIL.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Web.Asp", "MapleRIL.Web.Asp\MapleRIL.Web.Asp.csproj", "{0591B4B2-DE6A-45D5-82FB-E46517D59386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.JsonifyWz", "MapleRIL.Web.JsonifyWz\MapleRIL.JsonifyWz.csproj", "{C37361F1-5F9C-43F1-81FA-DBDD9C0B5ECF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.JsonifyWz", "MapleRIL.JsonifyWz\MapleRIL.JsonifyWz.csproj", "{C37361F1-5F9C-43F1-81FA-DBDD9C0B5ECF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapleRIL.Web.Self", "MapleRIL.Web.Self\MapleRIL.Web.Self.csproj", "{EAA0913C-4C9E-4EAF-AA88-7D7CB7B31DC5}"
 EndProject
