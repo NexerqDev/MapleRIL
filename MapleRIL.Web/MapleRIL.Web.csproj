@@ -101,6 +101,7 @@
     <None Include=".babelrc" />
     <None Include="js\components\404.vue" />
     <None Include="js\components\about.vue" />
+    <None Include="js\components\favorites.vue" />
     <None Include="js\components\home.vue" />
     <None Include="js\main.js" />
     <Content Include="Static\assets\favicon.ico">

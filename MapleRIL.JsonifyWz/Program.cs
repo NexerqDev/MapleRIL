@@ -5,6 +5,7 @@ using MapleRIL.Common.RILJson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,23 +15,37 @@ namespace MapleRIL.JsonifyWz
 {
     class Program
     {
-        const string REGION = "GMS";
-        const string GAME_PATH = @"D:\Games\Nexon\Library\maplestory\appdata";
+        static string Region;
+        static string GamePath;
 
         static void Main(string[] args)
         {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Invalid args; MapleRIL.JsonifyWz [region name] [game path]");
+                return;
+            }
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            Region = args[0];
+            GamePath = args[1];
+
             // load wz
-            var rfm = new RILFileManager(REGION, GAME_PATH);
+            var rfm = new RILFileManager(Region, GamePath);
             var typs = RILItemTypes.GetAllItemTypes(rfm);
+            Console.WriteLine("Loaded region data");
 
             var data = new RILJsonFormat();
-            data.Region = REGION;
+            data.Region = Region;
             data.Version = rfm.GameVersion;
 
             var catdata = new List<RILJsonFormat.CategoryData>();
+            var c = 1;
             foreach (RILBaseItemType typ in typs)
             {
-                Console.WriteLine("Writing " + typ.FriendlyName);
+                Console.WriteLine("Writing " + typ.FriendlyName + $" ({c}/{typs.Count})");
                 List<WzImageProperty> props = typ.GetAllStringIdProperties(rfm);
 
                 var items = props.Select(p => new RILItem(rfm, p, typ));
@@ -47,7 +62,7 @@ namespace MapleRIL.JsonifyWz
                         {
                             Id = i.Id,
                             Name = i.Name,
-                            Description = i.Description,
+                            Description = i.ParsedDescription,
                             Icon = icon == null ? null : "data:image/png;base64," + Convert.ToBase64String(BitmapToBytes(icon))
                         });
                     }
@@ -56,10 +71,13 @@ namespace MapleRIL.JsonifyWz
                 category.Items = convItems.ToArray();
 
                 catdata.Add(category);
+                c++;
             }
 
             data.Categories = catdata.ToArray();
-            File.WriteAllText(@".\" + REGION + ".json", JsonConvert.SerializeObject(data));
+            File.WriteAllText(@".\" + Region + ".json", JsonConvert.SerializeObject(data));
+            Console.WriteLine($"Wrote to {Region}.json");
+            Console.WriteLine("Took " + stopwatch.Elapsed.ToString("c"));
         }
 
         public static byte[] BitmapToBytes(System.Drawing.Bitmap bmp, System.Drawing.Imaging.ImageFormat format = null)

@@ -55,7 +55,7 @@ namespace MapleRIL.Web
         {
             public string GetRootPath()
             {
-                return System.Web.HttpRuntime.BinDirectory;
+                return WebEngine.BasePath;
             }
         }
     }

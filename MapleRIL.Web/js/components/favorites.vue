@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="fav in $root.favorites" v-on:click="gotoFav(fav)">
-                        <td><img v-bind:src="fav.icon" width="32px"></td>
+                        <td><img v-bind:src="$root.safeIcon(fav.icon)" width="32px"></td>
                         <td>{{ fav.region }}</td>
                         <td>{{ fav.id }}</td>
                         <td>{{ fav.name }}</td>

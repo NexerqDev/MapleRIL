@@ -23,14 +23,14 @@
                                     <i v-else class="fa fa-star-o" aria-hidden="true" v-on:click="favorite(true)" style="cursor: pointer;"></i>
                                 </span>
                             </h3>
-                            <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="sourceData.icon" :alt="sourceData.name">
+                            <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="$root.safeIcon(sourceData.icon)" :alt="sourceData.name">
                             <div class="card-body">
                                 <h5 class="card-title">{{ sourceData.name }}</h5>
                                 <h6 class="card-subtitle text-muted">{{ sourceData.category }}</h6>
                             </div>
                             <div class="card-body" style="padding-top: 0;">
                                 <p class="card-text">
-                                    <pre style="font-family: inherit; white-space: pre-wrap; overflow-x: hidden;">{{ sourceData.description }}</pre>
+                                    <pre style="font-family: inherit; white-space: pre-wrap; overflow-x: hidden;" v-html="parseDesc(sourceData.description)"></pre>
                                 </p>
                             </div>
                             <div class="card-footer text-muted">
@@ -47,14 +47,14 @@
 
                                 <div v-if="targetData">
                                     <!-- have data -->
-                                    <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="targetData.icon" :alt="sourceData.name">
+                                    <img class="mt-2" style="height: 50px; object-fit: contain; display: block; width: 100%;" :src="$root.safeIcon(targetData.icon)" :alt="sourceData.name">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ targetData.name }}</h5>
                                         <h6 class="card-subtitle text-muted">{{ targetData.category }}</h6>
                                     </div>
                                     <div class="card-body" style="padding-top: 0;">
                                         <p class="card-text">
-                                            <pre style="font-family: inherit; white-space: pre-wrap; overflow-x: hidden;">{{ targetData.description }}</pre>
+                                            <pre style="font-family: inherit; white-space: pre-wrap; overflow-x: hidden;" v-html="parseDesc(targetData.description)"></pre>
                                         </p>
                                     </div>
                                 </div>
@@ -174,6 +174,15 @@
                 }
 
                 this.$root.saveFavorites();
+            },
+            parseDesc: function (descArr) {
+                let out = "";
+                let orange = false;
+                descArr.forEach(d => {
+                    out += `<span${orange ? " style=\"color: orange;\"" : ""}>${this.$root.escapeHtml(d)}</span>`;
+                    orange = !orange;
+                });
+                return out;
             }
         }
     }

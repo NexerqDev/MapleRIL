@@ -19,7 +19,7 @@ namespace MapleRIL.Common.RILJson
         public string Category { get; set; }
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string[] Description { get; set; }
 
         [JsonProperty("icon")]
         public string Icon { get; set; }

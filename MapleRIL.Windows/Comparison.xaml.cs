@@ -38,7 +38,7 @@ namespace MapleRIL.Windows
             // source
             sourceRegionLabel.Content = _mw.SourceRegion;
             sourceNameLabel.Content = sourceItem.Name;
-            safeDescAndParse(sourceDescBlock, sourceItem.Description);
+            safeDescAndParse(sourceDescBlock, sourceItem.ParsedDescription);
             try
             {
                 sourceImage.Source = Util.DrawingBmpToWpfBmp(sourceItem.Icon);
@@ -55,7 +55,7 @@ namespace MapleRIL.Windows
             }
 
             targetNameLabel.Content = targetItem.Name;
-            safeDescAndParse(targetDescBlock, targetItem.Description);
+            safeDescAndParse(targetDescBlock, targetItem.ParsedDescription);
             try
             {
                 targetImage.Source = Util.DrawingBmpToWpfBmp(targetItem.Icon);
@@ -69,51 +69,26 @@ namespace MapleRIL.Windows
             targetDescBlock.Text = "What d'you know? - This item seems to not exist in " + Properties.Settings.Default.targetRegion + "!";
         }
 
-        private Regex orangeDescRegex = new Regex("#c(.*?)#", RegexOptions.Singleline); // wait so singleline is the one that matches multiline strings ok then fuck thats confusing
-        private Regex orangeDescToEndRegex = new Regex("(?!#c(.*?)#)#c(.*?)$", RegexOptions.Singleline);
-        private void safeDescAndParse(TextBlock t, string d)
+        private void safeDescAndParse(TextBlock t, string[] pd)
         {
             t.Inlines.Clear();
             t.Text = "";
 
-            if (d == null)
+            if (pd == null)
             {
                 t.Text = "(no description)";
                 return;
             }
 
-            d = d.Replace("\\r", "")
-                 .Replace("\\n", "\n");
-
-            // sometimes you can have #c......... to the end so have to color the whole thing
-            if (orangeDescToEndRegex.IsMatch(d))
-                d += "#"; // just add it back save the headache
-
-            MatchCollection matches = orangeDescRegex.Matches(d);
-            if (matches.Count < 1)
+            bool orange = false;
+            foreach (string d in pd)
             {
-                t.Text = d;
-            }
-            else
-            {
-                // eg string "do this and #cDouble-click#" - index 12 - so go up to 12 (will include the space as substring is length)
-                t.Inlines.Add(new Run(d.Substring(0, matches[0].Index)));
-                t.Inlines.Add(new Run(d.Substring(matches[0].Index + 2, matches[0].Length - 3)) { Foreground = Brushes.DarkOrange }); // skip the #c (+2) and remove #c and #'s length (-3)
-                if (matches.Count > 1) // more than 1 match we need to do some tricks - basically last regex's index+length to the next index is regular then orange
-                {
-                    for (int i = 1; i < matches.Count; i++)
-                    {
-                        int continueIndex = matches[i - 1].Index + matches[i - 1].Length; // the index after the previous match
-                        t.Inlines.Add(new Run(d.Substring(continueIndex, matches[i].Index - continueIndex))); // go up to before the next orange
-                        t.Inlines.Add(new Run(d.Substring(matches[i].Index + 2, matches[i].Length - 3)) { Foreground = Brushes.DarkOrange }); // same as above, process the orange
-                    }
-                }
-                if (matches[matches.Count - 1].Index + matches[matches.Count - 1].Length < d.Length)
-                {
-                    // theres still more text to go as normal after last match as the index + regex match length added is less than the entire length
-                    int continueIndex = matches[matches.Count - 1].Index + matches[matches.Count - 1].Length;
-                    t.Inlines.Add(new Run(d.Substring(continueIndex))); // just from teh index to the end
-                }
+                Run r = new Run(d);
+                if (orange)
+                    r.Foreground = Brushes.DarkOrange;
+
+                t.Inlines.Add(r);
+                orange = !orange;
             }
         }
 

@@ -37,7 +37,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="item in filteredLookup" v-on:click="redirLookup(item)">
-                            <td><img class="center-block" v-bind:src="item.icon" width="32px"></td>
+                            <td><img class="center-block" v-bind:src="$root.safeIcon(item.icon)" width="32px"></td>
                             <td>{{ item.id }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.category }}</td>
