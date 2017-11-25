@@ -20,7 +20,11 @@
             <div v-if="lookup.length">
                 <div class="clearfix">
                     <div class="form-inline pull-right">
-                        Filter: <input type="text" class="form-control ml-2" v-model="filter" @input="updateFilter">
+                        Filter: 
+                            <select class="form-control ml-1" v-model="filterCategory" @change="updateFilter">
+                                <option v-for="c in categories" v-bind:value="c">{{ c }}</option>
+                            </select>
+                            <input type="text" class="form-control ml-1" placeholder="Text Filter" v-model="filter" @input="updateFilter">
                     </div>
                 </div>
                 <div class="alert alert-info mt-2">
@@ -65,7 +69,9 @@
                 lookup: [],
                 emptyLoad: false,
                 searching: false,
+                categories: [ "All" ],
                 filter: "",
+                filterCategory: "All",
                 filteredLookup: []
             }
         },
@@ -93,6 +99,15 @@
                         this.filteredLookup = resp.data.items;
 
                         this.filter = "";
+
+                        // get categories
+                        this.categories = [ "All" ];
+                        resp.data.items.forEach(i => {
+                            if (!this.categories.includes(i.category))
+                                this.categories.push(i.category);
+                        });
+                        this.filterCategory = this.categories.includes(this.filterCategory) ? this.filterCategory : "All";
+
                         this.emptyLoad = false;
                         this.searching = false;
 
@@ -102,13 +117,21 @@
                     .catch(e => this.searching = false);
             },
             updateFilter: function () {
-                if (!this.filter) {
+                if (!this.filter && this.filterCategory === "All") {
                     this.filteredLookup = this.lookup;
                     return;
                 }
 
                 let filterReg = new RegExp(escapeRegex(this.filter), "i");
-                this.filteredLookup = this.lookup.filter(i => filterReg.test(i.name));
+                this.filteredLookup = this.lookup.filter(i => {
+                    if (this.filterCategory !== "All" && i.category !== this.filterCategory)
+                        return false;
+
+                    if (this.filter)
+                        return filterReg.test(i.name);
+                    else
+                        return true;
+                });
             },
             redirLookup: function (item) {
                 this.$router.push({ path: "/search/lookup", query: { id: item.id, region: this.region }});
